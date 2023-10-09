@@ -11,6 +11,6 @@ class VarFunctionTest {
         MathFunction test_func = new VarFunction();
         double actual = test_func.apply(Math.PI);
         double expected = 1;
-        assertEquals(expected, actual);
+        assertEquals(expected, actual, 0.000001);
     }
 }
