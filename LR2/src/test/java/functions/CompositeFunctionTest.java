@@ -31,6 +31,10 @@ class CompositeFunctionTest {
         MathFunction actual_zeroUnitFunc = zeroFunc.andThen(unitFunc);
         double expected_zeroUnitFunc = 0;
         assertEquals(expected_zeroUnitFunc, actual_zeroUnitFunc.apply(42));
+
+        MathFunction actual_sqrCosZeroFunc = sqrFunc.andThen(cosFunc).andThen(zeroFunc);
+        double expected_sqrCosZeroFunc = 1;
+        assertEquals(expected_sqrCosZeroFunc, actual_sqrCosZeroFunc.apply(231));
     }
 
 }
