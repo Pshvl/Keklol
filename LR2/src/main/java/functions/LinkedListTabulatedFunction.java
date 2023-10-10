@@ -87,14 +87,28 @@ private void addNode (double x, double y){
     }
         return count;}
 
-    @Override
-    protected double extrapolateLeft(double x) {
-        return 0;
+    public double extrapolateLeft(double x) {
+        if (getCount() < 2) {
+            return getY(0);
+        }
+        double x1 = getX(0);
+        double y1 = getY(0);
+        double x2 = getX(1);
+        double y2 = getY(1);
+        return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
     }
 
-    @Override
     protected double extrapolateRight(double x) {
-        return 0;
+        if (count < 2) {
+            return (head.y);
+        } else {
+            double leftX = getX(count - 2);
+            double rightX = getX(count - 1);
+            double leftY = getY(count - 2);
+            double rightY = getY(count - 1);
+
+            return interpolate(x, leftX, rightX, leftY, rightY);
+        }
     }
 
 }
