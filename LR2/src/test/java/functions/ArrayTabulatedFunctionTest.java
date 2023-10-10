@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ArrayTabulatedFunctionTest {
 
+    /* Определение объектов для всех последующих тестов */
     double [] xValuesTest = {3.3, 4.3, 5.9, 9, 11.32};
     double [] yValuesTest = {36, 2.2, 0.1, 42, 6.54};
     ArrayTabulatedFunction testArray = new ArrayTabulatedFunction(xValuesTest, yValuesTest);
@@ -77,15 +78,15 @@ class ArrayTabulatedFunctionTest {
 
     @Test
     void floorIndexOfX() {
-        double actual = testArray.floorIndexOfX(2);
+        double actual = testArray.floorIndexOfX(2); // 1 вариант: значение меньше левой границы
         double expected = 0;
         assertEquals(expected, actual);
 
-        actual = testArray.floorIndexOfX(1122);
+        actual = testArray.floorIndexOfX(1122); // 2 вариант: значение больше правой границы
         expected = 5;
         assertEquals(expected, actual);
 
-        actual = testArray.floorIndexOfX(8);
+        actual = testArray.floorIndexOfX(8); // 3 вариант: значение находится в границах
         expected = 3;
         assertEquals(expected, actual);
     }
@@ -106,10 +107,10 @@ class ArrayTabulatedFunctionTest {
 
     @Test
     void interpolate() {
-        double leftX = testArray.getX(testArray.floorIndexOfX(6)-1);
-        double rightX = testArray.getX(testArray.floorIndexOfX(6));
-        double leftY = testArray.getY(testArray.floorIndexOfX(6)-1);
-        double rightY = testArray.getY(testArray.floorIndexOfX(6));
+        double leftX = testArray.getX(testArray.floorIndexOfX(6)-1); // x слева от заданного значения
+        double rightX = testArray.getX(testArray.floorIndexOfX(6)); // x справа от заданного значения
+        double leftY = testArray.getY(testArray.floorIndexOfX(6)-1); // y слева от заданного значения
+        double rightY = testArray.getY(testArray.floorIndexOfX(6)); // y справа от заданного значения
         double actual = testArray.interpolate(6, leftX, rightX, leftY, rightY);
         double expected = 0.1 + 4.19/3.1;
         assertEquals(expected, actual, 0.000001);
@@ -118,6 +119,7 @@ class ArrayTabulatedFunctionTest {
     @Test
     void andThen(){
 
+        /* Значение функции^2 */
         MathFunction testFunc_1 = testArray;
         MathFunction testFunc_2 = new SqrFunction();
         CompositeFunction testCompFunc = testFunc_2.andThen(testFunc_1);
@@ -126,6 +128,7 @@ class ArrayTabulatedFunctionTest {
         assertEquals(expected, actual);
 
 
+        /* По значению первой функции вычисляем значение второй */
         double [] xValuesTest = {3.14, 6, 13, 13.4};
         double [] yValuesTest = {-3, 12, 413, 5.4};
         testFunc_2 = new ArrayTabulatedFunction(xValuesTest, yValuesTest);
