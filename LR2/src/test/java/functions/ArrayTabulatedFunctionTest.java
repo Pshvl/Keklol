@@ -114,4 +114,25 @@ class ArrayTabulatedFunctionTest {
         double expected = 0.1 + 4.19/3.1;
         assertEquals(expected, actual, 0.000001);
     }
+
+    @Test
+    void andThen(){
+
+        MathFunction testFunc_1 = testArray;
+        MathFunction testFunc_2 = new SqrFunction();
+        CompositeFunction testCompFunc = testFunc_2.andThen(testFunc_1);
+        double actual = testCompFunc.apply(4);
+        double expected = Math.pow(2.2,2);
+        assertEquals(expected, actual);
+
+
+        double [] xValuesTest = {3.14, 6, 13, 13.4};
+        double [] yValuesTest = {-3, 12, 413, 5.4};
+        testFunc_2 = new ArrayTabulatedFunction(xValuesTest, yValuesTest);
+        testCompFunc = testFunc_1.andThen(testFunc_2);
+        actual = testCompFunc.apply(13.4);
+        expected = 0.1;
+        assertEquals(expected,actual,0.0001);
+
+    }
 }
