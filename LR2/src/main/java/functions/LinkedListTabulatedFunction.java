@@ -1,6 +1,6 @@
 package functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction{
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     private Node head;
     private int count;
     private static class Node{
@@ -33,14 +33,14 @@ private void addNode (double x, double y){
 
     }
     public LinkedListTabulatedFunction(MathFunction source,double xFrom, double xTo, int count){
-        if (xFrom > xTo) { /*// если начальное значение больше конечного, меняем их местами*/
+        if (xFrom > xTo) {
             double c = xFrom;
             xFrom = xTo;
             xTo = c;
         }
 
-        double step = (xTo - xFrom) / (count - 1);  // вычисляем расстояние между соседними точками
-        for (int i = 0; i < count; i++) { // заполняем список значениями функции на равноотстоящих точках
+        double step = (xTo - xFrom) / (count - 1);
+        for (int i = 0; i < count; i++) {
             double x = xFrom + i * step;
             addNode(x, source.apply(x));
         }
@@ -86,5 +86,15 @@ private void addNode (double x, double y){
         }
     }
         return count;}
+
+    @Override
+    protected double extrapolateLeft(double x) {
+        return 0;
+    }
+
+    @Override
+    protected double extrapolateRight(double x) {
+        return 0;
+    }
 
 }
