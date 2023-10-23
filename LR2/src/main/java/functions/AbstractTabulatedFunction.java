@@ -1,6 +1,6 @@
 package functions;
 
-abstract class AbstractTabulatedFunction implements TabulatedFunction{
+public abstract class AbstractTabulatedFunction implements TabulatedFunction{
     private int count;
 
     public int getCount() {

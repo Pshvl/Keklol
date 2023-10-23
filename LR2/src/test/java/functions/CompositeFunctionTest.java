@@ -37,4 +37,32 @@ class CompositeFunctionTest {
         assertEquals(expected_sqrCosZeroFunc, actual_sqrCosZeroFunc.apply(231));
     }
 
+
+    @Test
+    public void testApply1(){
+        CompositeFunction Q = new CompositeFunction(sqrFunc,cosFunc);
+        assertEquals(1.0, Q.apply(0), 0.000001);}
+
+    @Test public void testApply2(){
+        CompositeFunction Q = new CompositeFunction(cosFunc,sqrFunc);
+        assertEquals(1.0, Q.apply(Math.PI), 0.00001);
+
+    }
+    @Test public void testApply3(){
+        CompositeFunction Q = new CompositeFunction(cosFunc,zeroFunc);
+        assertEquals(0.0, Q.apply(Math.PI/4), 0.00001);
+
+    }
+
+    @Test public void testApply4(){
+        CompositeFunction Q = new CompositeFunction(cosFunc,unitFunc);
+        assertEquals(1.0, Q.apply(Math.PI/4), 0.00001);
+
+    }
+    @Test public void testApply5(){
+        CompositeFunction Q = new CompositeFunction(cosFunc,varFunc);
+        CompositeFunction QQ = new CompositeFunction(Q,unitFunc);
+        assertEquals(1.0, QQ.apply(Math.PI), 0.00001);
+
+    }
 }
