@@ -138,4 +138,48 @@ class ArrayTabulatedFunctionTest {
         assertEquals(expected,actual,0.0001);
 
     }
+
+    @Test
+    void testToString() {
+        String expected = "{(3.3,36.0)(4.3,2.2)(5.9,0.1)(9.0,42.0)(11.32,6.54)}";
+        String actual = testArray.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testEquals() {
+        ArrayTabulatedFunction testArray_2 = new ArrayTabulatedFunction(xValuesTest, yValuesTest); // точно такой же элемент класса как и testArray
+
+        double [] xValuesTest_2 = {3.3, 4.3, 5.9, 9, 15};
+        double [] yValuesTest_2 = {36, 2.2, 0.1, 42, 9};
+        ArrayTabulatedFunction testArray_3 = new ArrayTabulatedFunction(xValuesTest_2, yValuesTest_2); // отличие от testArray только на последние элементы массивов, для лучшей проверки
+
+        UnitFunction testFunc = new UnitFunction();
+
+        assertTrue(testArray.equals(testArray_2));
+        assertFalse(testArray.equals(testArray_3));
+        assertFalse(testArray.equals(testFunc));
+
+    }
+
+    @Test
+    void testHashCode() {
+        ArrayTabulatedFunction testArray_2 = new ArrayTabulatedFunction(xValuesTest, yValuesTest); // точно такой же элемент класса как и testArray
+        double [] xValuesTest = {3, 4, 5, 9, 11};
+        double [] yValuesTest = {36, 2, 0, 42, 6};
+        ArrayTabulatedFunction testArray_3 = new ArrayTabulatedFunction(xValuesTest, yValuesTest); // такой же элемент класса как и testArray, но с "целыми" значениями
+        double [] xValuesTest_2 = {8.2, 4.3, 5.9, 9.21, 15};
+        double [] yValuesTest_2 = {36, 3.2, 0.1, 42, 9};
+        ArrayTabulatedFunction testArray_4 = new ArrayTabulatedFunction(xValuesTest_2, yValuesTest_2);
+
+        assertNotEquals(testArray.hashCode(), testArray_4.hashCode());
+        assertEquals(testArray.hashCode(), testArray_2.hashCode());
+        assertEquals(testArray.hashCode(), testArray_3.hashCode());
+    }
+
+    @Test
+    void testClone() {
+        ArrayTabulatedFunction testArray_2 = (ArrayTabulatedFunction) testArray.clone();
+        assertEquals(testArray, testArray_2);
+    }
 }

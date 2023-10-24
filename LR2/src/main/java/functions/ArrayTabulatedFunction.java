@@ -35,6 +35,47 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
+    public String toString() { // вид: {(x1,y1)(x2,y2)...(xn,yn)}
+        String array = "";
+        for (int i = 0; i < count; i++){
+            array += '(' + String.valueOf(xValues[i]) + ',' + String.valueOf(yValues[i]) + ')';
+        }
+        return '{' + array + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this.getClass() != obj.getClass() || this.count != ((ArrayTabulatedFunction) obj).count) {
+            return false; // если не совпадает класс или количество элементов, то объекты не равны
+        }
+        boolean ans = true;
+        int i = 0;
+        ArrayTabulatedFunction objArray = (ArrayTabulatedFunction) obj;
+        while (ans) {
+            if (this.xValues[i] != objArray.xValues[i] || this.yValues[i] != objArray.yValues[i]) {
+                ans = false; // если нашли не равные элементы, выходим из цикла, возвращаем false
+            }
+            i++;
+            if (i == this.count) return ans; // возвращаем ans, когда прошли все элементы
+        }
+        return ans;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        for (int i = 0; i < count; i++) {
+            hashCode = hashCode ^ ( (int) yValues[i] ^ (int) xValues[i] );
+        }
+        return hashCode;
+    }
+
+    @Override
+    public Object clone() {
+        return new ArrayTabulatedFunction(xValues.clone(), yValues.clone());
+    }
+
+    @Override
     public int getCount() {
         return count;
     }
