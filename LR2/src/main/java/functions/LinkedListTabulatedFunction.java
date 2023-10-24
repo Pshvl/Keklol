@@ -1,9 +1,9 @@
 package functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements TabulatedFunction{
     private Node head;
     private int count;
-    private static class Node{
+     static class Node{
         public Node next, prev;
         public double x,y;
         Node(double x, double y) {
@@ -11,7 +11,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             this.y = y;
         }
         //1.должен возвращать текстовое описание точек
-        //2.должен возвращать напечатанный массив хранящийся внутри.
+
         public String toString() {
             StringBuilder stroka = new StringBuilder();
             stroka.append("(").append(x).append("; ").append(y).append(")");
@@ -20,21 +20,21 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
         //
         public boolean equals(Object o) {
-            if (this == o) return true;  // когда переданный в метод объект также является объектом и точки в точности
-            // совпадают с точками объекта, у которого вызывается метод.
+            if (this == o) return true;  //когда переданный в метод объект также является табулированной функцией
+            // и её набор точек в точности совпадает с набором точек функции, у которой вызывается метод
             return ((o != null) && (o.getClass() == this.getClass())
                     && (x == ((LinkedListTabulatedFunction.Node)o).x)
                     && (y == ((LinkedListTabulatedFunction.Node)o).y));
-            //если переданный в метод объект является экземпляром класса LinkedListTabulatedFunction.Node,
+            //Если переданный в метод объект является экземпляром класса LinkedListTabulatedFunction. Node,
             // время работы метода должно быть сокращено за счёт прямого обращения к элементам состояния переданного в метод объекта.
         }
 
-        public int hashCode() {//должен возвращать значение хэш-кода для объекта.
+        public int hashCode() {//должен возвращать объект-копию для объекта IdentityFunction.
             int result = 31 * Double.hashCode(x);
             result = 31 * result + Double.hashCode(y);
             return result;
         }
-        public Object clone() {//должен возвращать объект-копию для объекта.
+        public Object clone() {//должен возвращать объект-копию для объекта табулированной функции
             Node clone = new Node(x, y);
             clone.prev = this.prev;
             clone.next = this.next;
@@ -140,5 +140,59 @@ private void addNode (double x, double y){
             return interpolate(x, leftX, rightX, leftY, rightY);
         }
     }
-
+//2.должен возвращать напечатанный массив хранящийся внутри.
+public String toString() {
+    StringBuilder str1 = new StringBuilder(); // создаем объект StringBuilder для построения строки
+    Node current = head;
+    for (int i = 0; i < count; i++) {
+        String node = current.toString();
+        str1.append(node).append(", ");
+        current = current.next;
+    }
+    str1.delete(str1.length() - 2, str1.length()); // удаляем последнюю запятую и пробел
+    return str1.toString();
 }
+
+//2.должен возвращать истинное значение тогда и только тогда, когда
+// переданный в метод объект также является объектом и точки в точности
+// совпадают с точками объекта, у которого вызывается метод.
+public boolean equals(Object o) {
+    if (this == o) return true;
+    Node node = head;  // Получаем первый узел списка
+    if (o.getClass() == o.getClass() && count == ((LinkedListTabulatedFunction)o).getCount()) {
+        Node other = ((LinkedListTabulatedFunction)o).getNode(0); // Получаем первый узел другого списка
+        // Сравниваем узлы списка
+        do {
+            if (!node.equals(other)) return false;
+            node = node.next;
+            other = other.next;
+        } while (node != head);
+        return true;
+    }
+    return false;
+}
+
+    public int hashCode() { //должен возвращать значение хэш-кода для объекта.
+        int result = 0; // инициализируем переменную результатом
+        for (Node temp = head; temp != head.prev; temp = temp.next) {
+
+            result = result * 31 + temp.hashCode();
+        }
+        result = result * 31 + head.prev.hashCode(); // вычисляем хеш-код для последнего узла и добавляем его к результату
+        return result;
+    }
+    public Object clone() {//должен возвращать объект-копию для объекта.
+        double[] xValues = new double[count];
+        double[] yValues = new double[count];
+        int i = 0;
+        for (Node temp = head; temp != head.prev; temp = temp.next) {
+            xValues[i] = temp.x;
+            yValues[i] = temp.y;
+            i++;
+        }
+        xValues[count - 1] = head.prev.x; // добавляем координату x последнего узла в массив
+        yValues[count - 1] = head.prev.y; // добавляем координату y последнего узла в массив
+        return new LinkedListTabulatedFunction(xValues, yValues);
+    }
+}
+
