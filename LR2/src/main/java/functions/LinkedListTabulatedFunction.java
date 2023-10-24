@@ -10,6 +10,36 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             this.x = x;
             this.y = y;
         }
+        //1.должен возвращать текстовое описание точек
+        //2.должен возвращать напечатанный массив хранящийся внутри.
+        public String toString() {
+            StringBuilder stroka = new StringBuilder();
+            stroka.append("(").append(x).append("; ").append(y).append(")");
+            return stroka.toString();
+        }
+
+        //
+        public boolean equals(Object o) {
+            if (this == o) return true;  // когда переданный в метод объект также является объектом и точки в точности
+            // совпадают с точками объекта, у которого вызывается метод.
+            return ((o != null) && (o.getClass() == this.getClass())
+                    && (x == ((LinkedListTabulatedFunction.Node)o).x)
+                    && (y == ((LinkedListTabulatedFunction.Node)o).y));
+            //если переданный в метод объект является экземпляром класса LinkedListTabulatedFunction.Node,
+            // время работы метода должно быть сокращено за счёт прямого обращения к элементам состояния переданного в метод объекта.
+        }
+
+        public int hashCode() {//должен возвращать значение хэш-кода для объекта.
+            int result = 31 * Double.hashCode(x);
+            result = 31 * result + Double.hashCode(y);
+            return result;
+        }
+        public Object clone() {//должен возвращать объект-копию для объекта.
+            Node clone = new Node(x, y);
+            clone.prev = this.prev;
+            clone.next = this.next;
+            return clone;
+        }
     }
 private void addNode (double x, double y){
     Node newNode = new Node(x,y);
