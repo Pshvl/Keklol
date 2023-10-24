@@ -6,18 +6,22 @@ public class IdentityFunction implements MathFunction
         return x;
     }
 
-    public final String toString() {
+    @Override
+    public String toString() {
         return "IdentityFunction{}";
     }
 
+    @Override
     public boolean equals(Object obj) {
         return this.getClass() == obj.getClass();
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
+    @Override
     public Object clone() {
            /* try {
                 return super.clone();
