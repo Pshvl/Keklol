@@ -6,10 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ArrayTabulatedFunctionTest {
 
-    /* Определение объектов для всех последующих тестов */
     double [] xValuesTest = {3.3, 4.3, 5.9, 9, 11.32};
     double [] yValuesTest = {36, 2.2, 0.1, 42, 6.54};
     ArrayTabulatedFunction testArray = new ArrayTabulatedFunction(xValuesTest, yValuesTest);
+    MathFunction source = new SqrFunction();
+    ArrayTabulatedFunction testArray_2 = new ArrayTabulatedFunction(source, 2, 10, 6);
 
     @Test
     void getCount() {
@@ -143,6 +144,10 @@ class ArrayTabulatedFunctionTest {
     void testToString() {
         String expected = "{(3.3,36.0)(4.3,2.2)(5.9,0.1)(9.0,42.0)(11.32,6.54)}";
         String actual = testArray.toString();
+        assertEquals(expected, actual);
+
+        expected = "{(2,4)(3.6,12.96)(5.2,27.04)(6.8,46.24)(8.4,70.56)}";
+        actual = testArray_2.toString();
         assertEquals(expected, actual);
     }
 

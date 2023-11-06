@@ -1,9 +1,8 @@
 package functions;
 
-/* функция всегдва возвращает заданную константу */
 public class ConstantFunction implements MathFunction {
     private final double constant;
-    public ConstantFunction(double constNum){ // в конструкторе задается константа
+    public ConstantFunction(double constNum){
         this.constant = constNum;
     }
     public double apply(double x) {
