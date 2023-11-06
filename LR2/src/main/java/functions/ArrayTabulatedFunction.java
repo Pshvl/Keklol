@@ -2,8 +2,12 @@ package functions;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.stream.IntStream;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Iterable<Point>{
     private int count; // количество строк в таблице
     private double[] xValues; // таблица со значениями x
     private double[] yValues; // таблица со значениями y
@@ -82,16 +86,25 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public double getX(int index) { // получение x по его индексу
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Index is out of range");
+        }
         return xValues[index];
     }
 
     @Override
     public double getY(int index) { // получение y по его индексу
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Index is out of range");
+        }
         return yValues[index];
     }
 
     @Override
     public void setY(int index, double value) { // установка значения value на заданный индекс по y
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Index is out of range");
+        }
         yValues[index] = value;
     }
 
@@ -147,5 +160,22 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     protected double interpolate(double x, double leftX, double rightX, double leftY, double rightY) {
         return super.interpolate(x, leftX, rightX, leftY, rightY);
+    }
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            int i = 0;
+            @Override
+            public boolean hasNext() {
+                return i < count;
+            }
+            @Override
+            public Point next() {
+                if (hasNext()) {
+                    return new Point(xValues[i], yValues[i++]);
+                } else {
+                    throw new NoSuchElementException();
+                }
+            }
+        };
     }
 }

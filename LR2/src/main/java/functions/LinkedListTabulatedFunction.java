@@ -1,5 +1,7 @@
 package functions;
-
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements TabulatedFunction{
     private Node head;
     private int count;
@@ -90,9 +92,21 @@ private void addNode (double x, double y){
         }
         return (Search);
     }
-    public double getX(int index){return getNode(index).x;}
-    public double getY(int index){return getNode(index).y;}
-    public void setY(int index, double val){getNode(index).y = val;}
+    public double getX(int index)
+    {
+        if (index < 0 || index >= count) {
+        throw new IllegalArgumentException("Index is out of bounds");}
+        return getNode(index).x;}
+    public double getY(int index)
+    {if (index < 0 || index >= count) {
+        throw new IllegalArgumentException("Index is out of bounds");
+    }
+        return getNode(index).y;}
+    public void setY(int index, double val)
+    {if (index < 0 || index >= count) {
+        throw new IllegalArgumentException("Index is out of bounds");
+    }
+        getNode(index).y = val;}
     public int indexOfX(double x)
     {for (int i = 0; i < count; i++)
     {
@@ -109,7 +123,14 @@ private void addNode (double x, double y){
         }
     }
         return -1;}
-    public int floorIndexOfX(double x){
+    public int floorIndexOfX(double x)
+    {
+        if (x < leftBound()) {
+            throw new IllegalArgumentException("Index is out of left bound");
+        }
+        if (x > rightBound()) {
+            return getCount() - 2;
+        }
         for (int i = 0; i < count; i++){
         if (x < getX(i)) {
             return i;
@@ -193,6 +214,25 @@ public boolean equals(Object o) {
         xValues[count - 1] = head.prev.x; // добавляем координату x последнего узла в массив
         yValues[count - 1] = head.prev.y; // добавляем координату y последнего узла в массив
         return new LinkedListTabulatedFunction(xValues, yValues);
+    }
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            private Node node = head;
+            // Проверка наличия следующего элемента
+            @Override
+            public boolean hasNext() { return node != null; }
+            // Получение следующей точки
+            @Override
+            public Point next() {
+                if(hasNext()) {
+                    Point point = new Point(node.x, node.y);
+                    node = node.next;
+                    if (node == head) node = null;
+                    return point;
+                }
+                else throw new NoSuchElementException();
+            }
+        };
     }
 }
 
