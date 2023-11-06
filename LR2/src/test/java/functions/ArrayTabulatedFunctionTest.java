@@ -10,7 +10,7 @@ class ArrayTabulatedFunctionTest {
     double [] yValuesTest = {36, 2.2, 0.1, 42, 6.54};
     ArrayTabulatedFunction testArray = new ArrayTabulatedFunction(xValuesTest, yValuesTest);
     MathFunction source = new SqrFunction();
-    ArrayTabulatedFunction testArray_2 = new ArrayTabulatedFunction(source, 2, 10, 6);
+    ArrayTabulatedFunction testArray_2 = new ArrayTabulatedFunction(source, 2, 10, 5);
 
     @Test
     void getCount() {
@@ -146,7 +146,7 @@ class ArrayTabulatedFunctionTest {
         String actual = testArray.toString();
         assertEquals(expected, actual);
 
-        expected = "{(2,4)(3.6,12.96)(5.2,27.04)(6.8,46.24)(8.4,70.56)}";
+        expected = "{(2.0,4.0)(4.0,16.0)(6.0,36.0)(8.0,64.0)(10.0,100.0)}";
         actual = testArray_2.toString();
         assertEquals(expected, actual);
     }
