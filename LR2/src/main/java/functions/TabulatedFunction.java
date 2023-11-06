@@ -9,4 +9,5 @@ public interface TabulatedFunction extends MathFunction, Iterable<Point>{
         int indexOfY(double y);
         double leftBound();
         double rightBound();
+        Iterator<Point> iterator();
 }
