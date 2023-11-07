@@ -1,4 +1,4 @@
-package functions;
+package functions;//1
 
 import java.lang.Math;
 public class SqrFunction implements MathFunction {

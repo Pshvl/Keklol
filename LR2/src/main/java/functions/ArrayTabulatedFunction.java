@@ -8,9 +8,9 @@ import java.util.NoSuchElementException;
 import exceptions.InterpolationException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
-    private int count;
-    private double[] xValues;
-    private double[] yValues;
+    protected int count;
+    protected double[] xValues;
+    protected double[] yValues;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         checkLengthIsTheSame(xValues, yValues);

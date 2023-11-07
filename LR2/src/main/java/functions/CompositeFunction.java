@@ -1,4 +1,4 @@
-package functions;
+package functions;//1
 
 class CompositeFunction implements MathFunction{
 private final MathFunction firstFunction;
