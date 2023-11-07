@@ -1,7 +1,8 @@
 package functions;
-
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 import exceptions.InterpolationException;
-
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements TabulatedFunction{
     private Node head;
     private int count;
@@ -217,6 +218,24 @@ public boolean equals(Object o) {
         yValues[count - 1] = head.prev.y; // добавляем координату y последнего узла в массив
         return new LinkedListTabulatedFunction(xValues, yValues);
     }
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            private Node node = head;
 
+            @Override
+            public boolean hasNext() { return node != null; }
+
+            @Override
+            public Point next() {
+                if(hasNext()) {
+                    Point point = new Point(node.x, node.y);
+                    node = node.next;
+                    if (node == head) node = null;
+                    return point;
+                }
+                else throw new NoSuchElementException();
+            }
+        };
+    }
 }
 
