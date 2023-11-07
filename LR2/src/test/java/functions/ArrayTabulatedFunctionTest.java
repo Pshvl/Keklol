@@ -1,5 +1,8 @@
 package functions;
 
+import exceptions.ArrayIsNotSortedException;
+import exceptions.DifferentLengthOfArraysException;
+import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,6 +118,10 @@ class ArrayTabulatedFunctionTest {
         double actual = testArray.interpolate(6, leftX, rightX, leftY, rightY);
         double expected = 0.1 + 4.19/3.1;
         assertEquals(expected, actual, 0.000001);
+
+        int floorIndex = testArray.floorIndexOfX(6)-1;
+        actual = testArray.interpolate(6, floorIndex);
+        assertEquals(expected, actual, 0.000001);
     }
 
     @Test
@@ -173,7 +180,7 @@ class ArrayTabulatedFunctionTest {
         double [] xValuesTest = {3, 4, 5, 9, 11};
         double [] yValuesTest = {36, 2, 0, 42, 6};
         ArrayTabulatedFunction testArray_3 = new ArrayTabulatedFunction(xValuesTest, yValuesTest); // такой же элемент класса как и testArray, но с "целыми" значениями
-        double [] xValuesTest_2 = {8.2, 4.3, 5.9, 9.21, 15};
+        double [] xValuesTest_2 = {4.3, 5.9, 8.2, 9.21, 15};
         double [] yValuesTest_2 = {36, 3.2, 0.1, 42, 9};
         ArrayTabulatedFunction testArray_4 = new ArrayTabulatedFunction(xValuesTest_2, yValuesTest_2);
 
@@ -186,5 +193,16 @@ class ArrayTabulatedFunctionTest {
     void testClone() {
         ArrayTabulatedFunction testArray_2 = (ArrayTabulatedFunction) testArray.clone();
         assertEquals(testArray, testArray_2);
+    }
+
+    @Test
+    void Exceptions() {
+        assertThrowsExactly(InterpolationException.class, ()-> testArray.interpolate(2, 4));
+
+        double [] xExceptTest = {2.3, 2.1, 8};
+        double [] xExceptTest2 = {1, 2.5, 9, 12};
+        double [] yExceptTest = {0.4, 8, 3.4};
+        assertThrowsExactly(ArrayIsNotSortedException.class,()->new ArrayTabulatedFunction(xExceptTest, yExceptTest));
+        assertThrowsExactly(DifferentLengthOfArraysException.class, ()->new ArrayTabulatedFunction(xExceptTest2, yExceptTest));
     }
 }

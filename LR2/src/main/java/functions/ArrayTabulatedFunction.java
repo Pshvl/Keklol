@@ -2,17 +2,17 @@ package functions;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.stream.IntStream;
+import exceptions.InterpolationException;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Iterable<Point>{
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     private int count;
     private double[] xValues;
     private double[] yValues;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
+
         this.xValues = Arrays.copyOf(xValues, xValues.length);
         this.yValues = Arrays.copyOf(yValues, yValues.length);
 
@@ -160,25 +160,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         return interpolate(x, xValues[count-2], xValues[count-1], yValues[count-2], yValues[count-1]);
     }
 
-    @Override
-    protected double interpolate(double x, double leftX, double rightX, double leftY, double rightY) {
-        return super.interpolate(x, leftX, rightX, leftY, rightY);
-    }
-    public Iterator<Point> iterator() {
-        return new Iterator<Point>() {
-            int i = 0;
-            @Override
-            public boolean hasNext() {
-                return i < count;
-            }
-            @Override
-            public Point next() {
-                if (hasNext()) {
-                    return new Point(xValues[i], yValues[i++]);
-                } else {
-                    throw new NoSuchElementException();
-                }
-            }
-        };
+    protected double interpolate(double x, int floorIndex) {
+        if (this.xValues[floorIndex] < x && x < this.xValues[floorIndex+1])
+            return interpolate(x, this.xValues[floorIndex], this.xValues[floorIndex+1], this.yValues[floorIndex], this.yValues[floorIndex+1]);
+        else
+            throw new InterpolationException();
     }
 }
