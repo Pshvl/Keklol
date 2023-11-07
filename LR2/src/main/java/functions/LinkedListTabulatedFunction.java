@@ -1,8 +1,7 @@
 package functions;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.stream.IntStream;
-import exceptions.InterpolationException;
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements TabulatedFunction{
     private Node head;
     private int count;
@@ -88,7 +87,10 @@ private void addNode (double x, double y){
     public double rightBound(){return head.prev.x;}
 
 
-    private Node getNode(int index){
+     private Node getNode(int index){
+         if (index < 0 || index >= count) {
+             throw new IndexOutOfBoundsException("Index out of range: " + index);
+         }
         Node Search=head;
         for (int i = 0; i < index; i++) {
             Search = Search.next;
@@ -164,22 +166,20 @@ private void addNode (double x, double y){
             return interpolate(x, leftX, rightX, leftY, rightY);
         }
     }
-//2.должен возвращать напечатанный массив хранящийся внутри.
+
 public String toString() {
-    StringBuilder str1 = new StringBuilder(); // создаем объект StringBuilder для построения строки
+    StringBuilder str1 = new StringBuilder();
     Node current = head;
     for (int i = 0; i < count; i++) {
         String node = current.toString();
         str1.append(node).append(", ");
         current = current.next;
     }
-    str1.delete(str1.length() - 2, str1.length()); // удаляем последнюю запятую и пробел
+    str1.delete(str1.length() - 2, str1.length());
     return str1.toString();
 }
 
-//2.должен возвращать истинное значение тогда и только тогда, когда
-// переданный в метод объект также является объектом и точки в точности
-// совпадают с точками объекта, у которого вызывается метод.
+
 public boolean equals(Object o) {
     if (this == o) return true;
     Node node = head;  // Получаем первый узел списка

@@ -2,10 +2,12 @@ package functions;
 
 import exceptions.ArrayIsNotSortedException;
 import exceptions.DifferentLengthOfArraysException;
-import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 class LinkedListTabulatedFunctionTest {
 
     private final double[] xValues = {0.0, 1.0, 5.0, 10.0};
@@ -58,7 +60,8 @@ class LinkedListTabulatedFunctionTest {
     @Test
     void floorIndexOfX() {
         assertEquals(2, ((LinkedListTabulatedFunction) Q).floorIndexOfX(1.5), 0.0001);
-    }
+        assertThrows(IllegalArgumentException.class, () -> ((LinkedListTabulatedFunction) Q).floorIndexOfX(-1.0)); }
+
 
     @Test
     void extrapolateLeft() {
@@ -131,4 +134,28 @@ class LinkedListTabulatedFunctionTest {
         assertThrowsExactly(ArrayIsNotSortedException.class,()->new ArrayTabulatedFunction(xExceptTest, yExceptTest));
         assertThrowsExactly(DifferentLengthOfArraysException.class, ()->new ArrayTabulatedFunction(xExceptTest2, yExceptTest));
     }
-}
+
+    @Test
+    public void testIteratorWhile() {
+        Iterator<Point> iterator = ((LinkedListTabulatedFunction)Q).iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            assertEquals(point.x, i, 0);
+            assertEquals(point.y, i * i, 0);
+            i++;
+        }
+    }
+
+    @Test
+    public void testIteratorForEach() {
+        LinkedListTabulatedFunction functionNew = new LinkedListTabulatedFunction(xValues, yValues);
+        int i = 0;
+        for (Object point : functionNew) {
+            Point p = (Point) point;
+            assertEquals(p.x, i, 0);
+            assertEquals(p.y, i * i, 0);
+            i++;
+        }
+    }
+    }
