@@ -1,4 +1,4 @@
-package functions;
+package functions;//1
 
 public class ZeroFunction extends ConstantFunction{
     public ZeroFunction() {
