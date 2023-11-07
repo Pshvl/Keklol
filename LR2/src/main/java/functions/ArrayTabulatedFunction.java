@@ -3,6 +3,7 @@ package functions;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import exceptions.InterpolationException;
 
@@ -169,6 +170,21 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             throw new InterpolationException();
     }
     public Iterator<Point> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<Point>() {
+            int i;
+            @Override
+            public boolean hasNext() {
+                return i < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!(hasNext())) throw new NoSuchElementException();
+                Point point = new Point(getX(i), getY(i));
+                i++;
+
+                return point;
+            }
+        };
     }
 }
