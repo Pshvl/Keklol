@@ -2,6 +2,8 @@ package functions;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Iterator;
+
 import exceptions.InterpolationException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
@@ -165,5 +167,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             return interpolate(x, this.xValues[floorIndex], this.xValues[floorIndex+1], this.yValues[floorIndex], this.yValues[floorIndex+1]);
         else
             throw new InterpolationException();
+    }
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException();
     }
 }
