@@ -199,20 +199,21 @@ class ArrayTabulatedFunctionTest {
 
     @Test
     void Iterator() {
-        Iterator<Point> iterator = testArray.iterator();
+        Iterator<Point> iterator_1 = testArray.iterator();
         int i = 0;
         for (Point point : testArray){
-            point = iterator.next();
-            assertEquals(point.x,testArray.getX(i));
-            assertEquals(point.y,testArray.getY(i));
+            point = iterator_1.next();
+            assertEquals(testArray.getX(i), point.x);
+            assertEquals(testArray.getY(i), point.y);
             i++;
         }
 
+        Iterator<Point> iterator_2 = testArray.iterator();
         i = 0;
-        while (iterator.hasNext()) {
-            Point point = iterator.next();
-            assertEquals(testArray.getX(i), point.x, 0.0001);
-            assertEquals(testArray.getY(i), point.y, 0.0001);
+        while (iterator_2.hasNext()) {
+            Point point = iterator_2.next();
+            assertEquals(testArray.getX(i), point.x);
+            assertEquals(testArray.getY(i), point.y);
             i++;
         }
     }
