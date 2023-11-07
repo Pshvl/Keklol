@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListTabulatedFunctionTest {
 
-    private final double[] xValues = {1.0, 5.0, 10.0, 0.0};
+    private final double[] xValues = {0.0, 1.0, 5.0, 10.0};
     private final double[] yValues = {16.0, 4.0, 19.0, 2.0};
     private final TabulatedFunction Q = new LinkedListTabulatedFunction(xValues, yValues);
 
@@ -22,17 +22,17 @@ class LinkedListTabulatedFunctionTest {
 
     @Test
     void leftBound() {
-        assertEquals(1.0, Q.leftBound(), 0.0001);
+        assertEquals(0.0, Q.leftBound(), 0.0001);
     }
 
     @Test
     void rightBound() {
-        assertEquals(0.0, Q.rightBound(), 0.0001);
+        assertEquals(10.0, Q.rightBound(), 0.0001);
     }
 
     @Test
     void getX() {
-        assertEquals(5.0, Q.getX(1), 0.0001);
+        assertEquals(1.0, Q.getX(1), 0.0001);
     }
 
     @Test
@@ -49,7 +49,7 @@ class LinkedListTabulatedFunctionTest {
 
     @Test
     void indexOfX() {
-        assertEquals(2, Q.indexOfX(10.0), 0.0001);
+        assertEquals(3, Q.indexOfX(10.0), 0.0001);
     }
 
     @Test
@@ -65,18 +65,18 @@ class LinkedListTabulatedFunctionTest {
 
     @Test
     void extrapolateLeft() {
-        assertEquals(16.0, ((LinkedListTabulatedFunction) Q).extrapolateLeft(1.0), 0.0001);
+        assertEquals(4.0, ((LinkedListTabulatedFunction) Q).extrapolateLeft(1.0), 0.0001);
 
     }
 
     @Test
     void extrapolateRight() {
-        assertEquals(3.7, ((LinkedListTabulatedFunction) Q).extrapolateRight(1.0), 0.0001);
+        assertEquals(32.6, ((LinkedListTabulatedFunction) Q).extrapolateRight(1.0), 0.0001);
     }
 
     @Test
     void testToString() {
-        String expected = "(1.0; 16.0), (5.0; 4.0), (10.0; 19.0), (0.0; 2.0)";
+        String expected = "(0.0; 16.0), (1.0; 4.0), (5.0; 19.0), (10.0; 2.0)";
         assertEquals(expected, Q.toString());
     }
 
@@ -115,7 +115,7 @@ class LinkedListTabulatedFunctionTest {
     @Test
     public void testEqualsLinkedList() {
         LinkedListTabulatedFunction functionCopy = new LinkedListTabulatedFunction(xValues, yValues);
-        LinkedListTabulatedFunction functionNotCopy = new LinkedListTabulatedFunction(new double[]{1.5, 2.33, -5.0}, new double[]{-1.5, -2.33, 5.0});
+        LinkedListTabulatedFunction functionNotCopy = new LinkedListTabulatedFunction(new double[]{-5.0, 1.5, 2.33}, new double[]{-1.5, -2.33, 5.0});
         assertTrue(Q.equals(functionCopy));
         assertFalse(Q.equals(functionNotCopy));
 
