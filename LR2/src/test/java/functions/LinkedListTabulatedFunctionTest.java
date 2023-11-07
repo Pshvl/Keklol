@@ -2,7 +2,6 @@ package functions;
 
 import exceptions.ArrayIsNotSortedException;
 import exceptions.DifferentLengthOfArraysException;
-import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +57,9 @@ class LinkedListTabulatedFunctionTest {
     @Test
     void floorIndexOfX() {
         assertEquals(2, ((LinkedListTabulatedFunction) Q).floorIndexOfX(1.5), 0.0001);
+        assertNotEquals(2, ((LinkedListTabulatedFunction) Q).floorIndexOfX(-2), 0.0001);
     }
+
 
     @Test
     void extrapolateLeft() {
