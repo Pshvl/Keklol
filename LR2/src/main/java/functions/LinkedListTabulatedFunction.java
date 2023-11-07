@@ -218,10 +218,10 @@ public boolean equals(Object o) {
     public Iterator<Point> iterator() {
         return new Iterator<Point>() {
             private Node node = head;
-            // Проверка наличия следующего элемента
+
             @Override
             public boolean hasNext() { return node != null; }
-            // Получение следующей точки
+
             @Override
             public Point next() {
                 if(hasNext()) {
