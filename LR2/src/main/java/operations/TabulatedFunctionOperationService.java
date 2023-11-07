@@ -64,11 +64,11 @@ public class TabulatedFunctionOperationService {
         return factory.create(xValues, yValues);
     }
 
-    public TabulatedFunction addition(TabulatedFunction firstFunction, TabulatedFunction secondFunction) {
+    public TabulatedFunction Addition(TabulatedFunction firstFunction, TabulatedFunction secondFunction) {
         BiOperation operation = (u, v) -> u + v;
         return doOperation(firstFunction, secondFunction, operation);
     }
-    public TabulatedFunction deduction(TabulatedFunction firstFunction, TabulatedFunction secondFunction) {
+    public TabulatedFunction Subtraction(TabulatedFunction firstFunction, TabulatedFunction secondFunction) {
         BiOperation operation = (u, v) -> u - v;
         return doOperation(firstFunction, secondFunction, operation);
     }
