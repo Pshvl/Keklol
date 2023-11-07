@@ -1,0 +1,10 @@
+package exceptions;
+
+public class InconsistentFunctionsException extends Throwable {
+    public InconsistentFunctionsException() {
+        super();
+    }
+    public InconsistentFunctionsException(String message) {
+        super(message);
+    }
+}
