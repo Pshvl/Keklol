@@ -43,6 +43,7 @@ public final class FunctionsIO {
         return factory.create(xValues, yValues);
     }
 
+
     public static void writeTabulatedFunction(BufferedOutputStream outputStream, TabulatedFunction function) throws IOException{
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
         int pointCount  = function.getCount();
@@ -83,4 +84,12 @@ public final class FunctionsIO {
         ObjectInputStream objectInputStream = new ObjectInputStream(stream);
         return (TabulatedFunction)objectInputStream.readObject();
     }
-}
+
+
+public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
+        ObjectOutputStream out = new ObjectOutputStream(stream);
+        out.writeObject(function);
+
+        out.flush();
+        }
+        }

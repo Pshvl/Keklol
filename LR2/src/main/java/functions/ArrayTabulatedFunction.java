@@ -1,5 +1,7 @@
 package functions;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -7,10 +9,12 @@ import java.util.NoSuchElementException;
 
 import exceptions.InterpolationException;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Serializable {
     protected int count;
     protected double[] xValues;
     protected double[] yValues;
+    @Serial
+    private static final long serialVersionUID = 1576464099066393222L;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         checkLengthIsTheSame(xValues, yValues);
