@@ -5,7 +5,7 @@ import java.io.*;
 import operations.*;
 
 public class LinkedListTabulatedFunctionSerialization {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("LR2/output/serialized linked list functions.bin"))) {
             double[] xValues = {1, 2, 3};
             double[] yValues = {2, 3, 4};
@@ -26,8 +26,11 @@ public class LinkedListTabulatedFunctionSerialization {
             System.out.println("Function: " + FunctionsIO.deserialize(in));
             System.out.println("First derivative: " + FunctionsIO.deserialize(in));
             System.out.println("Second derivative: " + FunctionsIO.deserialize(in));
-        } catch (IOException  e) {
+        } catch (ClassNotFoundException e) {
+            throw new IOException (e);
+        } catch (IOException e){
             e.printStackTrace();
+
         }
     }
 }
