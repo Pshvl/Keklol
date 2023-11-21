@@ -2,17 +2,30 @@ package functions;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements TabulatedFunction{
+import exceptions.ArrayIsNotSortedException;
+import exceptions.DifferentLengthOfArraysException;
+import exceptions.InterpolationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
+import java.io.*;
+
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements TabulatedFunction, Serializable{
+
+    @Serial
+    private static final long serialVersionUID= 7866745549429348943L;
     private Node head;
     private int count;
-     static class Node{
-        public Node next, prev;
+     static class Node implements Serializable{
+         @Serial
+         private static final long serialVersionUID= 3118188536805056519L;
+         public Node next, prev;
         public double x,y;
         Node(double x, double y) {
             this.x = x;
             this.y = y;
         }
-        //1.должен возвращать текстовое описание точек
+
 
         public String toString() {
             StringBuilder stroka = new StringBuilder();
@@ -22,15 +35,12 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
         //
         public boolean equals(Object o) {
-            if (this == o) return true;  //когда переданный в метод объект также является табулированной функцией
-            // и её набор точек в точности совпадает с набором точек функции, у которой вызывается метод
-            return ((o != null) && (o.getClass() == this.getClass())
-                    && (x == ((LinkedListTabulatedFunction.Node)o).x)
-                    && (y == ((LinkedListTabulatedFunction.Node)o).y));
-            //Если переданный в метод объект является экземпляром класса LinkedListTabulatedFunction. Node,
-            // время работы метода должно быть сокращено за счёт прямого обращения к элементам состояния переданного в метод объекта.
-        }
+            if (this == o) return true;
 
+            return ((o != null) && (o.getClass() == this.getClass())
+                    && (x == ((LinkedListTabulatedFunction.Node) o).x)
+                    && (y == ((LinkedListTabulatedFunction.Node) o).y));
+        }
         public int hashCode() {//должен возвращать объект-копию для объекта IdentityFunction.
             int result = 31 * Double.hashCode(x);
             result = 31 * result + Double.hashCode(y);

@@ -5,10 +5,7 @@ import functions.TabulatedFunction;
 import functions.factory.TabulatedFunctionFactory;
 
 import javax.swing.text.NumberFormatter;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -44,5 +41,46 @@ public final class FunctionsIO {
             }
         }
         return factory.create(xValues, yValues);
+    }
+
+    public static void writeTabulatedFunction(BufferedOutputStream outputStream, TabulatedFunction function) throws IOException{
+        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+        int pointCount  = function.getCount();
+
+        dataOutputStream.writeInt(pointCount);
+
+        for (int i = 0; i < pointCount; i++) {
+           /* double x = function.getX(i);
+            double y = function.getY(i);*/
+            dataOutputStream.writeDouble(function.getX(i));
+            dataOutputStream.writeDouble(function.getY(i));
+        }
+        dataOutputStream.flush();
+    }
+
+
+    public static TabulatedFunction readTabulatedFunction(BufferedInputStream inputStream, TabulatedFunctionFactory factory) throws IOException
+    {
+        DataInputStream dataInputStream = new DataInputStream(inputStream);
+
+        int length = dataInputStream.readInt();
+
+        double[] xValues = new double[length];
+        double[] yValues = new double[length];
+
+        for (int i = 0; i < length; i++) {
+            xValues[i] = dataInputStream.readDouble();
+            yValues[i] = dataInputStream.readDouble();
+        }
+
+
+        return factory.create(xValues, yValues);
+
+    }
+
+    public static TabulatedFunction deserialize(BufferedInputStream stream)
+    {
+        ObjectInputStream objectInputStream = new ObjectInputStream(stream);
+        return (TabulatedFunction)objectInputStream.readObject();
     }
 }
