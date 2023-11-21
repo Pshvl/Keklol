@@ -6,9 +6,13 @@ import functions.factory.TabulatedFunctionFactory;
 
 import javax.swing.text.NumberFormatter;
 import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+import java.io.ObjectOutputStream;
+import java.io.BufferedOutputStream;
 
 public final class FunctionsIO {
     private FunctionsIO() {
