@@ -141,8 +141,8 @@ class LinkedListTabulatedFunctionTest {
         int i = 0;
         while (iterator.hasNext()) {
             Point point = iterator.next();
-            assertEquals(point.x, i, 0);
-            assertEquals(point.y, i * i, 0);
+            assertEquals(point.x, Q.getX(i), 0);
+            assertEquals(point.y, Q.getY(i), 0);
             i++;
         }
     }
@@ -153,8 +153,8 @@ class LinkedListTabulatedFunctionTest {
         int i = 0;
         for (Object point : functionNew) {
             Point p = (Point) point;
-            assertEquals(p.x, i, 0);
-            assertEquals(p.y, i * i, 0);
+            assertEquals(p.x, functionNew.getX(i), 0);
+            assertEquals(p.y, functionNew.getY(i), 0);
             i++;
         }
     }
