@@ -18,9 +18,10 @@ public class MultiplyingTaskExecutor {
         }
 
         for (Thread t : threadList) {
-            t.start();
+                t.start();
         }
-        Thread.sleep(200);
+
+        Thread.sleep(1000);
         System.out.println(linkListFunc);
     }
 }
