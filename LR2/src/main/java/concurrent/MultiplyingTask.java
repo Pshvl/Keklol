@@ -5,6 +5,8 @@ import functions.TabulatedFunction;
 public class MultiplyingTask implements Runnable {
     final private TabulatedFunction tabFunc;
 
+    boolean isCompleted = false;
+
     MultiplyingTask(TabulatedFunction tabFunc) {
         this.tabFunc = tabFunc;
     }
@@ -17,5 +19,6 @@ public class MultiplyingTask implements Runnable {
         }
         String curThread = Thread.currentThread().getName();
         System.out.println("Thread " + curThread + " has completed task");
+        this.isCompleted = true;
     }
 }
