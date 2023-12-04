@@ -74,11 +74,15 @@ class LinkedListTabulatedFunctionTest {
         assertEquals(32.6, ((LinkedListTabulatedFunction) Q).extrapolateRight(1.0), 0.0001);
     }
 
-    @Test
+    /*@Test
     void testToString() {
         String expected = "(0.0; 16.0), (1.0; 4.0), (5.0; 19.0), (10.0; 2.0)";
         assertEquals(expected, Q.toString());
-    }
+    }*/
+
+
+
+
 
     @Test
     void testEquals() {
@@ -158,4 +162,16 @@ class LinkedListTabulatedFunctionTest {
             i++;
         }
     }
+   /* @Test
+    public void toStringBuilderLinkTest() {
+        assertEquals(LinkedListTabulatedFunction.toString(), "LinkedListTabulatedFunction size = 5\n[1.0; 2.0]\n[1.5; 3.0]\n[2.0; 4.0]\n[2.5; 5.0]\n[3.0; 6.0]\n");
+    }*/
+    @Test
+    public void toStringBuilderLinkTest() {
+        double[] xVal = new double[]{1.0, 2.0, 3.0, 4.0, 5.0};
+        double[] yVal = new double[]{1.0, 2.0, 3.0, 4.0, 5.0};
+        AbstractTabulatedFunction func = new LinkedListTabulatedFunction(xVal, yVal); // создание экземпляра функции
+        assertEquals("LinkedListTabulatedFunction count = 5\n[1.0; 1.0]\n[2.0; 2.0]\n[3.0; 3.0]\n[4.0; 4.0]\n[5.0; 5.0]", func.toString());
+    }
+
     }

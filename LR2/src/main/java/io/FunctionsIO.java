@@ -34,7 +34,7 @@ public final class FunctionsIO {
         double[] yValues = new double[count];
 
         NumberFormat format = NumberFormat.getInstance(Locale.forLanguageTag("ru"));
-        for(int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             String value = reader.readLine();
             String[] xAndYValues = value.split(" ");
             try {
@@ -48,9 +48,9 @@ public final class FunctionsIO {
     }
 
 
-    public static void writeTabulatedFunction(BufferedOutputStream outputStream, TabulatedFunction function) throws IOException{
+    public static void writeTabulatedFunction(BufferedOutputStream outputStream, TabulatedFunction function) throws IOException {
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-        int pointCount  = function.getCount();
+        int pointCount = function.getCount();
 
         dataOutputStream.writeInt(pointCount);
 
@@ -64,8 +64,7 @@ public final class FunctionsIO {
     }
 
 
-    public static TabulatedFunction readTabulatedFunction(BufferedInputStream inputStream, TabulatedFunctionFactory factory) throws IOException
-    {
+    public static TabulatedFunction readTabulatedFunction(BufferedInputStream inputStream, TabulatedFunctionFactory factory) throws IOException {
         DataInputStream dataInputStream = new DataInputStream(inputStream);
 
         int length = dataInputStream.readInt();
@@ -85,14 +84,14 @@ public final class FunctionsIO {
 
     public static TabulatedFunction deserialize(BufferedInputStream stream) throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(stream);
-        return (TabulatedFunction)objectInputStream.readObject();
+        return (TabulatedFunction) objectInputStream.readObject();
     }
 
 
-public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
+    public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(stream);
         out.writeObject(function);
 
         out.flush();
-        }
-        }
+    }
+}

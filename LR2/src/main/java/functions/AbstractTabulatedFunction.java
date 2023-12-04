@@ -50,14 +50,15 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction{
         }
 
     }
+    @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str.append(getClass().getSimpleName() + "size=" + count + "\\n" );
 
+        str.append(this.getClass().getSimpleName()).append(' ').append("count = ").append(getCount());
         for(Point point : this){ // по точкам
-            str.append("[" + point.x + "; " + point.y + "]" + "\n");
+            str.append("\n").append('[').append(point.x).append("; ").append(point.y).append(']');
         }
-        str.deleteCharAt(str.length()-1);
+
         return str.toString();
     }
 

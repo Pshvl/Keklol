@@ -28,9 +28,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
 
         public String toString() {
-            StringBuilder stroka = new StringBuilder();
-            stroka.append("(").append(x).append("; ").append(y).append(")");
-            return stroka.toString();
+            StringBuilder str = new StringBuilder();
+            str.append("(").append(x).append("; ").append(y).append(")");
+            return str.toString();
         }
 
         //
@@ -177,6 +177,8 @@ private void addNode (double x, double y){
         }
     }
 
+/*
+@Override
 public String toString() {
     StringBuilder str1 = new StringBuilder();
     Node current = head;
@@ -188,6 +190,7 @@ public String toString() {
     str1.delete(str1.length() - 2, str1.length());
     return str1.toString();
 }
+*/
 
 
 public boolean equals(Object o) {

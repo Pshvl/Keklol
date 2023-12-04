@@ -10,7 +10,6 @@ public class IdentityFunction implements MathFunction
     public String toString() {
         return "IdentityFunction{}";
     }
-
     @Override
     public boolean equals(Object obj) {
         return this.getClass() == obj.getClass();
