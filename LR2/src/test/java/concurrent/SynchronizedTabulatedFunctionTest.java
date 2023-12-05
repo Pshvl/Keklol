@@ -81,4 +81,24 @@ class SynchronizedTabulatedFunctionTest {
             i++;
         }
     }
+    @Test
+    void doSynchronously() {
+        SynchronizedTabulatedFunction.Operation<Double> operation_sum = func -> {
+            double sumY = 0;
+            for(int i = 0; i < func.getCount(); i++){
+                sumY += func.getY(i);
+            }
+            return sumY;
+        };
+        assertEquals(86.84, syncFunc.doSynchronously(operation_sum), 0.000001);
+
+        SynchronizedTabulatedFunction.Operation<Void> operation_set = func -> {
+            for (int i = 0; i < func.getCount(); i++) {
+                func.setY(i, i);
+            }
+            return null;
+        };
+        syncFunc.doSynchronously(operation_set);
+        assertEquals(10, syncFunc.doSynchronously(operation_sum));
+    }
 }
