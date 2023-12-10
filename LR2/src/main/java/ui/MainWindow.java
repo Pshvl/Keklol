@@ -1,5 +1,7 @@
 package ui;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -7,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
+
 import functions.factory.ArrayTabulatedFunctionFactory;
 import functions.factory.TabulatedFunctionFactory;
 
@@ -15,10 +18,12 @@ import functions.ArrayTabulatedFunction;
 public class MainWindow extends JFrame {
 
     public MainWindow mainWindow = this;
-//    public FunctionDatabase database = new FunctionDatabase();
+    //    public FunctionDatabase database = new FunctionDatabase();
     public TabulatedFunctionFactory functionFactory = new ArrayTabulatedFunctionFactory();
-//    public FunctionList functionList;
+
+    //    public FunctionList functionList;
     public MainWindow() {
+
         setTitle("Главное окно");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 600);
@@ -71,17 +76,24 @@ public class MainWindow extends JFrame {
     }
 
 
-
-
-
-
     public static void main(String[] args) {
+        Toolkit.getDefaultToolkit().setDynamicLayout(true);
+        System.setProperty("sun.awt.noerasebackground", "true");
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JDialog.setDefaultLookAndFeelDecorated(true);
 
+
+        try {
+            UIManager.setLookAndFeel("de.muntjak.tinylookandfeel.TinyLookAndFeel");
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
         SwingUtilities.invokeLater(() -> {
 
             new MainWindow().setVisible(true);
 
         });
 
-    }}
+    }
+}
 
