@@ -1,4 +1,5 @@
 package ui;
+import exceptions.ArrayIsNotSortedException;
 import functions.TabulatedFunction;
 import functions.factory.TabulatedFunctionFactory;
 import functions.factory.ArrayTabulatedFunctionFactory;
@@ -11,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static ui.ExceptionMessage.showError;
 
 public class TabulatedFunctionWindow2 extends JFrame {
     private DefaultTableModel tableModel;
@@ -73,7 +76,7 @@ public class TabulatedFunctionWindow2 extends JFrame {
         try {
             int numberOfPoints = Integer.parseInt(pointsTextField.getText());
             if (numberOfPoints <= 0) {
-                showError("Please enter a valid number of points.");
+                showError("Неверный Ввод. Пожалуйста введите ЦЕЛОЕ ЧИСЛО > 0.");
                 return;
             }
 
@@ -88,7 +91,7 @@ public class TabulatedFunctionWindow2 extends JFrame {
 
 
         } catch (NumberFormatException ex) {
-            showError("Invalid input. Please enter a valid number.");
+            showError("Неверный Ввод. Пожалуйста введите ЦЕЛОЕ ЧИСЛО.");
         }
     }
 
@@ -98,18 +101,23 @@ public class TabulatedFunctionWindow2 extends JFrame {
         double[] yValues = new double[tableModel.getRowCount()];
 
         for (int i = 0; i < tableModel.getRowCount(); i++) {
+            try {
             xValues[i] = Double.parseDouble(tableModel.getValueAt(i, 0).toString());
             yValues[i] = Double.parseDouble(tableModel.getValueAt(i, 1).toString());
+            } catch (NumberFormatException ex) {
+                showError("Неверный Ввод. Пожалуйста введите в " + (i+1) + " строке ЧИСЛА с плавающей точкой");
+            }
         }
 
-        TabulatedFunction tabulatedFunction = factory.create(xValues, yValues);
-        System.out.println("Tabulated Function created: " + tabulatedFunction);
+        try {
+            TabulatedFunction tabulatedFunction = factory.create(xValues, yValues);
+            System.out.println("Tabulated Function created: " + tabulatedFunction);
+        } catch (ArrayIsNotSortedException ex) {
+            showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");
+        }
 
     }
 
-    private void showError(String message) {
-        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
-    }
 
 
 
