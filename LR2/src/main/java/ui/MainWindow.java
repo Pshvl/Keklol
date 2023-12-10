@@ -55,17 +55,6 @@ public class MainWindow extends JFrame {
         });
 
 
-//// Создаем кнопку для открытия окна настроек
-//        JButton settingsButton = new JButton("Настройки");
-////        settingsButton.addActionListener(new SettingsButtonListener());
-//
-//
-//        // Добавление обработчика события нажатия на кнопку
-//        settingsButton.addActionListener(e -> {
-//
-//            public void actionPerformed(ActionEvent e) {
-//                new SettingsWindow(mainWindow);
-//        });
 
         JButton settings = new JButton("настройки");
         getContentPane().add(settings, BorderLayout.NORTH);
@@ -73,11 +62,19 @@ public class MainWindow extends JFrame {
             // Создание нового окна
             new SettingsWindow(mainWindow);
         });
-        JButton operations = new JButton("Операции над функцией");
-        getContentPane().add(operations, BorderLayout.AFTER_LAST_LINE);
-        settings.addActionListener(e -> {
+
+        JButton operations = new JButton("операции");
+        getContentPane().add(operations, BorderLayout.WEST);
+        operations.addActionListener(e -> {
             // Создание нового окна
-            new SettingsWindow(mainWindow);
+            new OperationsWindow(mainWindow);
+        });
+
+        JButton differential = new JButton("дифференциал");
+        getContentPane().add(differential, BorderLayout.SOUTH);
+        differential.addActionListener(e -> {
+            // Создание нового окна
+            new DifferentialWindow(mainWindow);
         });
     }
 
