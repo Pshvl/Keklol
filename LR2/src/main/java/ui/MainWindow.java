@@ -55,23 +55,19 @@ public class MainWindow extends JFrame {
         });
 
 
-//// Создаем кнопку для открытия окна настроек
-//        JButton settingsButton = new JButton("Настройки");
-////        settingsButton.addActionListener(new SettingsButtonListener());
-//
-//
-//        // Добавление обработчика события нажатия на кнопку
-//        settingsButton.addActionListener(e -> {
-//
-//            public void actionPerformed(ActionEvent e) {
-//                new SettingsWindow(mainWindow);
-//        });
 
         JButton settings = new JButton("настройки");
         getContentPane().add(settings, BorderLayout.NORTH);
         settings.addActionListener(e -> {
             // Создание нового окна
             new SettingsWindow(mainWindow);
+        });
+
+        JButton operations = new JButton("операции");
+        getContentPane().add(operations, BorderLayout.WEST);
+        operations.addActionListener(e -> {
+            // Создание нового окна
+            new OperationsWindow(mainWindow);
         });
     }
 
