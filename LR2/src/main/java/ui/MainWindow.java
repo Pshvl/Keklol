@@ -73,6 +73,12 @@ public class MainWindow extends JFrame {
             // Создание нового окна
             new SettingsWindow(mainWindow);
         });
+        JButton operations = new JButton("Операции над функцией");
+        getContentPane().add(operations, BorderLayout.AFTER_LAST_LINE);
+        settings.addActionListener(e -> {
+            // Создание нового окна
+            new SettingsWindow(mainWindow);
+        });
     }
 
 
