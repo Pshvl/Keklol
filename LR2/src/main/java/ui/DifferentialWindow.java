@@ -77,7 +77,6 @@ public class DifferentialWindow extends JDialog {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new DifferentialWindow();
             }
         });
     }}

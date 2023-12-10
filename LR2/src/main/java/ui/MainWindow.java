@@ -70,8 +70,8 @@ public class MainWindow extends JFrame {
             new OperationsWindow(mainWindow);
         });
 
-        JButton differential = new JButton("операции");
-        getContentPane().add(differential, BorderLayout.WEST);
+        JButton differential = new JButton("дифференциал");
+        getContentPane().add(differential, BorderLayout.SOUTH);
         differential.addActionListener(e -> {
             // Создание нового окна
             new DifferentialWindow(mainWindow);
