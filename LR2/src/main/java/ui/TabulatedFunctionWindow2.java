@@ -29,13 +29,13 @@ public class TabulatedFunctionWindow2 extends JFrame {
 // Создаем компоненты окна
         JPanel inputPanel = new JPanel();
         pointsTextField = new JTextField(10);
-        createButton = new JButton("ебашь");
+        JButton inputVal = new JButton("ебашь");
 
 
 
         inputPanel.add(new JLabel("сколько нада:"));
         inputPanel.add(pointsTextField);
-        inputPanel.add(createButton);
+        inputPanel.add(inputVal);
 
         // Создаем таблицу для ввода значений x и y
         tableModel = new DefaultTableModel(new Object[]{"X", "Y"}, 0);
@@ -43,7 +43,19 @@ public class TabulatedFunctionWindow2 extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(table);//прокруч если много
 
-        createButton.addActionListener(new ActionListener() {
+        inputVal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inputValues();
+            }
+        });
+
+        JPanel resultPanel = new JPanel();
+        JButton createFunc = new JButton("Создать функцию");
+
+        resultPanel.add(createFunc);
+
+        createFunc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createTabulatedFunction();
@@ -52,9 +64,12 @@ public class TabulatedFunctionWindow2 extends JFrame {
 
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+        add(resultPanel, BorderLayout.SOUTH);
     }
 
-    private void createTabulatedFunction() {
+
+
+    private void inputValues() {
         try {
             int numberOfPoints = Integer.parseInt(pointsTextField.getText());
             if (numberOfPoints <= 0) {
@@ -71,24 +86,25 @@ public class TabulatedFunctionWindow2 extends JFrame {
                 tableModel.addRow(rowData);
             }
 
-            // Создаем табулированную функцию с использованием фабрики
-            TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
-            double[] xValues = new double[numberOfPoints];
-            double[] yValues = new double[numberOfPoints];
 
-            for (int i = 0; i < numberOfPoints; i++) {
-                xValues[i] = Double.parseDouble(tableModel.getValueAt(i, 0).toString());
-                yValues[i] = Double.parseDouble(tableModel.getValueAt(i, 1).toString());
-            }
-
-            TabulatedFunction tabulatedFunction = factory.create(xValues, yValues);
-            System.out.println("Tabulated Function created: " + tabulatedFunction);
-
-            // Закрываем окно
-            dispose();
         } catch (NumberFormatException ex) {
             showError("Invalid input. Please enter a valid number.");
         }
+    }
+
+    private void createTabulatedFunction() {
+        TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
+        double[] xValues = new double[tableModel.getRowCount()];
+        double[] yValues = new double[tableModel.getRowCount()];
+
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            xValues[i] = Double.parseDouble(tableModel.getValueAt(i, 0).toString());
+            yValues[i] = Double.parseDouble(tableModel.getValueAt(i, 1).toString());
+        }
+
+        TabulatedFunction tabulatedFunction = factory.create(xValues, yValues);
+        System.out.println("Tabulated Function created: " + tabulatedFunction);
+
     }
 
     private void showError(String message) {
