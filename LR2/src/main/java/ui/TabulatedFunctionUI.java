@@ -1,6 +1,9 @@
 package ui;
 import exceptions.ArrayIsNotSortedException;
+import functions.ArrayTabulatedFunction;
+import functions.LinkedListTabulatedFunction;
 import functions.TabulatedFunction;
+import functions.factory.LinkedListTabulatedFunctionFactory;
 import functions.factory.TabulatedFunctionFactory;
 import functions.factory.ArrayTabulatedFunctionFactory;
 
@@ -76,7 +79,7 @@ public class TabulatedFunctionUI extends JFrame {
         try {
             int numberOfPoints = Integer.parseInt(pointsTextField.getText());
             if (numberOfPoints <= 0) {
-                showError("Неверный Ввод. Пожалуйста введите ЦЕЛОЕ ЧИСЛО > 0.");
+                showError("Неверный Ввод. Пожалуйста введите ЧИСЛО > 0.");
                 return;
             }
 
@@ -110,8 +113,8 @@ public class TabulatedFunctionUI extends JFrame {
         }
 
         try {
-            TabulatedFunction tabulatedFunction = factory.create(xValues, yValues);
-            System.out.println("Tabulated Function created: " + tabulatedFunction);
+            ArrayTabulatedFunction func = new ArrayTabulatedFunctionFactory().create(xValues, yValues);
+            System.out.println("Tabulated Function created: " + func);
         } catch (ArrayIsNotSortedException ex) {
             showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");
         }

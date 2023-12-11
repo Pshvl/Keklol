@@ -19,7 +19,7 @@ public class SettingsWindow extends JDialog {
         settingsWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         // Создание кнопки для сохранения выбранной фабрики
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new JButton("Сохранить");
         saveButton.setBounds(100, 100, 100, 30);
         settingsWindow.add(saveButton, BorderLayout.SOUTH);
         settingsWindow.add(settings, BorderLayout.NORTH);
