@@ -15,13 +15,13 @@ import java.awt.event.ActionListener;
 
 import static ui.ExceptionMessage.showError;
 
-public class TabulatedFunctionWindow2 extends JFrame {
+public class TabulatedFunctionUI extends JFrame {
     private DefaultTableModel tableModel;
     private JTable table;
     private JTextField pointsTextField;
     private JButton createButton;
 
-    public TabulatedFunctionWindow2() {
+    public TabulatedFunctionUI() {
         setTitle("ЖОПА СИСЬСКИ СРАТЬ КОРЗИНКА");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,16 +152,8 @@ public class TabulatedFunctionWindow2 extends JFrame {
         }
 
 
-
-//        SwingUtilities.invokeLater(new Runnable() {
-////            public void run() {
-////                TabulatedFunctionWindow2 window = new TabulatedFunctionWindow2();
-////                window.setVisible(true);
-////            }
-//        });
-
             SwingUtilities.invokeLater(() -> {
-                new TabulatedFunctionWindow2().setVisible(true);
+                new TabulatedFunctionUI().setVisible(true);
             });
     }
 }

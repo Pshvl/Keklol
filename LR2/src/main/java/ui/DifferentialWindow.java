@@ -1,7 +1,7 @@
 package ui;
 
 import javax.swing.*;
-
+import functions.TabulatedFunction;
 import operations.DifferentialOperator;
 import operations.*;
 import javax.swing.*;
@@ -15,6 +15,14 @@ import java.awt.*;
 public class DifferentialWindow extends JDialog {
     private final JTextField initialFunctionField;
     private JLabel resultLabel;
+
+
+
+    private TabulatedFunction initialFunction;
+    private TabulatedFunction differentiatedFunction;
+    private TabulatedDifferentialOperator tabulatedDifferentialOperator;
+    double[] xValues;
+    double[] yValues;
     public DifferentialWindow(MainWindow mainWindow) {
         JDialog differentialWindow = new JDialog(mainWindow, "Настройки", Dialog.ModalityType.APPLICATION_MODAL);
         JLabel settings = new JLabel("Выберите тип создаваемой функции:");
@@ -55,21 +63,66 @@ public class DifferentialWindow extends JDialog {
         panel.add(bottomPanel, BorderLayout.SOUTH);
         differentialWindow.setVisible(true);
         differentialWindow.setVisible(true);
-    }
 
-    private void computeDerivative() {
-        try {            // Получение значения начальной функции
-            String initialFunction = initialFunctionField.getText();
-            // TODO: Реализуйте здесь логику вычисления производной табулированной функции
-            // Обновление результата в правой области
-            resultLabel.setText("Result: ");
-        } catch (Exception ex) {
-            resultLabel.setText("Error: Invalid function");
+    JButton createButton = new JButton("Ñîçäàòü");
+
+        createButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new TabulatedFunctionUI(xValues, yValues);
+            initialFunction = (TabulatedFunction)TabulatedFunctionDatabase.database;
+
+            Object[][] tableData = new Object[initialFunction.getCount()][2];
+            for (int i = 0; i < initialFunction.getCount(); i++) {
+                tableData[i][0] = initialFunction.getX(i);
+                tableData[i][1] = initialFunction.getY(i);
+            }
+
+
+            String[] columnNames = {"X", "Y"};
+
+
+            JTable table = new JTable(tableData, columnNames);
+
+
+            JScrollPane scrollPane = new JScrollPane(table);
+
+
+            add(scrollPane);
         }
+    });
 
 
 
-    }
+    JButton differentiateButton = new JButton("compute");
+        panel.add(differentiateButton);
+        differentiateButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            differentiatedFunction = tabulatedDifferentialOperator.deriveSynchronously((TabulatedFunction)initialFunction);
+            JLabel diffFunctionLabel = new JLabel("Äèôôåðåíöèðîâàííàÿ ôóíêöèÿ: ");
+            add(diffFunctionLabel);
+
+            Object[][] tableData = new Object[differentiatedFunction.getCount()][2];
+            for (int i = 0; i < differentiatedFunction.getCount(); i++) {
+                tableData[i][0] = differentiatedFunction.getX(i);
+                tableData[i][1] = differentiatedFunction.getY(i);
+            }
+
+
+            String[] columnNames = {"X", "Y"};
+
+
+            JTable table = new JTable(tableData, columnNames);
+
+
+            JScrollPane scrollPane = new JScrollPane(table);
+
+
+            add(scrollPane);
+        }
+    });
 
 
 

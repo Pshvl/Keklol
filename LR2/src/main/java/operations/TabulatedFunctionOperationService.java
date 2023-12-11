@@ -87,5 +87,8 @@ public class TabulatedFunctionOperationService {
         };
         return doOperation(firstFunction, secondFunction, operation);
     }
+    public enum Operation {
+        Addition, Subtraction, multiply, divide
+    }
 
 }
