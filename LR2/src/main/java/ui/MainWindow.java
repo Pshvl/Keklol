@@ -9,14 +9,12 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
-
 import functions.factory.ArrayTabulatedFunctionFactory;
 import functions.factory.TabulatedFunctionFactory;
 
-import functions.ArrayTabulatedFunction;
-
 public class MainWindow extends JFrame {
 
+    private TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
     public MainWindow mainWindow = this;
     //    public FunctionDatabase database = new FunctionDatabase();
     public TabulatedFunctionFactory functionFactory = new ArrayTabulatedFunctionFactory();
@@ -60,22 +58,26 @@ public class MainWindow extends JFrame {
         getContentPane().add(settings, BorderLayout.NORTH);
         settings.addActionListener(e -> {
             // Создание нового окна
-            new SettingsWindow(mainWindow);
+            new SettingsWindow(mainWindow, factory);
         });
 
         JButton operations = new JButton("операции");
         getContentPane().add(operations, BorderLayout.WEST);
         operations.addActionListener(e -> {
             // Создание нового окна
-            new OperationsWindow(mainWindow);
+            new OperationsWindow(mainWindow, factory);
         });
 
         JButton differential = new JButton("дифференциал");
         getContentPane().add(differential, BorderLayout.SOUTH);
-        differential.addActionListener(e -> {
+      /*  differential.addActionListener(e -> {
             // Создание нового окна
             new DifferentialWindow(mainWindow);
-        });
+        });*/
+    }
+
+    public void setFactory(TabulatedFunctionFactory fact){
+        this.factory = fact;
     }
 
 

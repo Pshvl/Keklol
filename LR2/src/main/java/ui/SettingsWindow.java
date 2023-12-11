@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SettingsWindow extends JDialog {
-    public SettingsWindow(MainWindow mainWindow) {
+    private final TabulatedFunctionFactory factoryArray = new ArrayTabulatedFunctionFactory();
+    private final TabulatedFunctionFactory factoryLinkList = new LinkedListTabulatedFunctionFactory();
+    public SettingsWindow(MainWindow mainWindow, TabulatedFunctionFactory factory) {
 
         JDialog settingsWindow = new JDialog(mainWindow, "Настройки", Dialog.ModalityType.APPLICATION_MODAL);
         JLabel settings = new JLabel("Выберите тип создаваемой функции:");
@@ -35,8 +37,13 @@ public class SettingsWindow extends JDialog {
         buttonGroup.add(linkedListRadioButton);
         settingsWindow.add(arrayRadioButton,BorderLayout.EAST);
         settingsWindow.add(linkedListRadioButton,BorderLayout.WEST);
-        arrayRadioButton.setSelected(true);
 
+        if (factory instanceof ArrayTabulatedFunctionFactory){
+            arrayRadioButton.setSelected(true);
+        }
+        else {
+            linkedListRadioButton.setSelected(true);
+        }
 
 // Обработчик события нажатия на кнопку сохранения
 
@@ -45,9 +52,9 @@ public class SettingsWindow extends JDialog {
             public void actionPerformed(ActionEvent e) {
 
                 if (arrayRadioButton.isSelected()) {
-                    mainWindow.functionFactory = new ArrayTabulatedFunctionFactory();
+                   mainWindow.setFactory(factoryArray);
                 } else {
-                    mainWindow.functionFactory = new LinkedListTabulatedFunctionFactory();
+                    mainWindow.setFactory(factoryLinkList);
                 }// Закрытие окна настроек
                 settingsWindow.dispose();
             }

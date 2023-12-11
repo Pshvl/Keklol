@@ -11,11 +11,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Map;
 
 import static ui.ExceptionMessage.showError;
 
-public class CreateTabulatedFunctionSource extends JFrame {
+public class CreateTabulatedFunctionSource extends JDialog {
+    private JDialog createFuncSourceWindow;
     private DefaultTableModel tableModel;
     private JTable table;
     private JButton createButton;
@@ -26,21 +26,12 @@ public class CreateTabulatedFunctionSource extends JFrame {
     private JComboBox funcBox;
     private HashMap<String, Object> functionsMap;
 
-    public CreateTabulatedFunctionSource() {
-        /*JDialog CreateFuncSourceWindow = new JDialog(mainWindow, "Создание функции на основе другой функции", Dialog.ModalityType.APPLICATION_MODAL);
-        JLabel createFuncSource = new JLabel("Выберите тип создаваемой функции:");
-        CreateFuncSourceWindow.setSize(300, 300);
-        CreateFuncSourceWindow.setLocationRelativeTo(mainWindow);
-        CreateFuncSourceWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);*/
+    public CreateTabulatedFunctionSource(Dialog operationsWindow, TabulatedFunctionFactory factory) {
+        createFuncSourceWindow = new JDialog(operationsWindow, "Создание функции на основе другой функции", Dialog.ModalityType.APPLICATION_MODAL);
+        createFuncSourceWindow.setSize(400, 300);
+        createFuncSourceWindow.setLocationRelativeTo(operationsWindow);
+        createFuncSourceWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        setTitle("Создание функции на основе другой функции");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        setLocationRelativeTo(null);//по центру
-
-        JPanel namePanel = new JPanel();
         String[] functions = {
                 "Единичная функция",
                 "Квадратичная функция",
@@ -87,10 +78,6 @@ public class CreateTabulatedFunctionSource extends JFrame {
         buttonPanel.add(createFunc);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 150));
 
-        add(gridPanel, BorderLayout.CENTER);
-
-        add(buttonPanel, BorderLayout.SOUTH);
-
         functionsMap = new HashMap<>();
         functionsMap.put("Единичная функция", new UnitFunction());
         functionsMap.put("Квадратичная функция", new SqrFunction());
@@ -106,6 +93,10 @@ public class CreateTabulatedFunctionSource extends JFrame {
             }
         });
 
+        createFuncSourceWindow.add(gridPanel, BorderLayout.CENTER);
+        createFuncSourceWindow.add(buttonPanel, BorderLayout.SOUTH);
+
+        createFuncSourceWindow.setVisible(true);
     }
 
     private void createTabulatedFunction() {
@@ -143,11 +134,12 @@ public class CreateTabulatedFunctionSource extends JFrame {
         } catch (ArrayIsNotSortedException ex) {
             showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");
         }
+
     }
 
 
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
 
         Toolkit.getDefaultToolkit().setDynamicLayout(true);
         System.setProperty("sun.awt.noerasebackground", "true");
@@ -161,9 +153,9 @@ public class CreateTabulatedFunctionSource extends JFrame {
             ex.printStackTrace();
         }
 
-        SwingUtilities.invokeLater(() -> {
+        *//*SwingUtilities.invokeLater(() -> {
             new CreateTabulatedFunctionSource().setVisible(true);
-        });
-    }
+        });*//*
+    }*/
 }
 

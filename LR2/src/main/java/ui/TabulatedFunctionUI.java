@@ -18,19 +18,25 @@ import java.awt.event.ActionListener;
 
 import static ui.ExceptionMessage.showError;
 
-public class TabulatedFunctionUI extends JFrame {
+public class TabulatedFunctionUI extends JDialog {
+    private JDialog tabulatedFuncWindow;
     private DefaultTableModel tableModel;
     private JTable table;
     private JTextField pointsTextField;
     private JButton createButton;
 
-    public TabulatedFunctionUI() {
-        setTitle("ЖОПА СИСЬСКИ СРАТЬ КОРЗИНКА");
+    public TabulatedFunctionUI(Dialog operationsWindow, TabulatedFunctionFactory factory) {
+        tabulatedFuncWindow = new JDialog(operationsWindow, "Создание функции на основе массивов", Dialog.ModalityType.APPLICATION_MODAL);
+        tabulatedFuncWindow.setSize(400, 300);
+        tabulatedFuncWindow.setLocationRelativeTo(operationsWindow);
+        tabulatedFuncWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+        /*setTitle("ЖОПА СИСЬСКИ СРАТЬ КОРЗИНКА");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        setLocationRelativeTo(null);//по центру
+        setLocationRelativeTo(null);//по центру*/
 
 // Создаем компоненты окна
         JPanel inputPanel = new JPanel();
@@ -68,9 +74,11 @@ public class TabulatedFunctionUI extends JFrame {
             }
         });
 
-        add(inputPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-        add(resultPanel, BorderLayout.SOUTH);
+        tabulatedFuncWindow.add(inputPanel, BorderLayout.NORTH);
+        tabulatedFuncWindow.add(resultPanel, BorderLayout.SOUTH);
+        tabulatedFuncWindow.add(scrollPane, BorderLayout.CENTER);;
+
+        tabulatedFuncWindow.setVisible(true);
     }
 
 
@@ -140,7 +148,7 @@ public class TabulatedFunctionUI extends JFrame {
 
 
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
 
         Toolkit.getDefaultToolkit().setDynamicLayout(true);
         System.setProperty("sun.awt.noerasebackground", "true");
@@ -158,5 +166,5 @@ public class TabulatedFunctionUI extends JFrame {
             SwingUtilities.invokeLater(() -> {
                 new TabulatedFunctionUI().setVisible(true);
             });
-    }
+    }*/
 }

@@ -1,4 +1,5 @@
 package ui;
+import functions.factory.TabulatedFunctionFactory;
 import io.FunctionsIO;
 import operations.TabulatedFunctionOperationService;
 import functions.TabulatedFunction;
@@ -35,117 +36,131 @@ import static operations.TabulatedFunctionOperationService.Operation.divide;
 
 public class OperationsWindow extends JDialog {
     private JDialog operationsWindow;
-    private DefaultTableModel model1;
-//    private DefaultTableModel model2;
-//    private DefaultTableModel model3;
-
-    public JTable table;
+    private TabulatedFunctionFactory factory;
+    public JTable tableFstFunc;
+    public JTable tableSecFunc;
+    public JTable tableResFunc;
     private TabulatedFunctionUI functionUI1;
     private TabulatedFunctionUI functionUI2;
 //    public JTable secondFunctionTable;
 //    public JTable resultTable;
     private TabulatedFunctionOperationService operationService;
 
-    public OperationsWindow(MainWindow mainWindow) {
-        operationsWindow = new JDialog(mainWindow, "операции", Dialog.ModalityType.APPLICATION_MODAL);
-        functionUI1 = new TabulatedFunctionUI();
-        functionUI2 = new TabulatedFunctionUI();
+    public OperationsWindow(MainWindow mainWindow, TabulatedFunctionFactory factory) {
+        this.factory = factory;
 
-
-        operationService = new TabulatedFunctionOperationService();
-
-
-//        JLabel settings = new JLabel("Выберите тип создаваемой функции:");
-        operationsWindow.setSize(300, 300);
+        operationsWindow = new JDialog(mainWindow, "Операции", Dialog.ModalityType.APPLICATION_MODAL);
+        operationsWindow.setSize(1500, 600);
         operationsWindow.setLocationRelativeTo(mainWindow);
         operationsWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-        // Создание панели
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 3));
-        operationsWindow.add(panel);
+        //functionUI1 = new TabulatedFunctionUI();
+        //functionUI2 = new TabulatedFunctionUI();
 
 
-// Создание таблиц для первой, второй функции и результата
+        //operationService = new TabulatedFunctionOperationService();
 
-//        JTable firstFunctionTable = createFunctionTable();
-//        JTable secondFunctionTable = createFunctionTable();
-//        JTable resultTable = createFunctionTable();
+        JPanel gridPanel = new JPanel(new GridLayout(0, 3, 0, 0) );
 
+        JPanel fstFuncPanel = new JPanel();
+        JPanel secFuncPanel = new JPanel();
+        JPanel resFuncPanel = new JPanel();
 
-        DefaultTableModel model1 = new DefaultTableModel();
-        model1.addColumn("X1");
-        model1.addColumn("Y1");
-        model1.addColumn("X2");
-        model1.addColumn("Y2");
-//        firstFunctionTable.setModel(model1);
-        table = new JTable(model1);
+        DefaultTableModel tableFstModel = new DefaultTableModel(new Object[]{"X", "Y"}, 0);
+        DefaultTableModel tableSecModel = new DefaultTableModel(new Object[]{"X", "Y"}, 0);
+        DefaultTableModel tableResModel = new DefaultTableModel(new Object[]{"X", "Y"}, 0);
 
-//        secondFunctionTable = new JTable();
-//        DefaultTableModel model2 = new DefaultTableModel();
-//        model2.addColumn("X");
-//        model2.addColumn("Y");
-//        secondFunctionTable.setModel(model2);
-//
-//        resultTable = new JTable();
-//        DefaultTableModel model3 = new DefaultTableModel();
-//        model3.addColumn("X");
-//        model3.addColumn("Y");
-//        resultTable.setModel(model3);
-// Установка таблиц в панель
-        panel.add(new JScrollPane(table));
-//        panel.add(new JScrollPane(secondFunctionTable));
-//        panel.add(new JScrollPane(resultTable));
+        tableFstFunc = new JTable(tableFstModel){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return (column==1);
+            }
+        };
+        JScrollPane scrollPane1 = new JScrollPane(tableFstFunc);
+
+        tableSecFunc = new JTable(tableSecModel){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return (column==1);
+            }
+        };
+        JScrollPane scrollPane2 = new JScrollPane(tableSecFunc);
+
+        tableResFunc = new JTable(tableResModel){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
+        JScrollPane scrollPane3 = new JScrollPane(tableResFunc);
+
+        fstFuncPanel.add(new JLabel("Первая функция:"), BorderLayout.NORTH);
+        fstFuncPanel.add(scrollPane1);
+
+        secFuncPanel.add(new JLabel("Вторая функция:"), BorderLayout.NORTH);
+        secFuncPanel.add(scrollPane2);
+
+        resFuncPanel.add(new JLabel("Результат:"), BorderLayout.NORTH);
+        resFuncPanel.add(scrollPane3);
 
 
 // Создание сервиса операций над функциями
 //1функ
-        JButton create1ButtonArr = new JButton("Create First Function with arrays");
-        JButton create1ButtonMath = new JButton("Create First Function with mathfunc");
-        JButton load1Button = new JButton("Load First Function");
-        JButton save1Button = new JButton("Save First Function");
+        JButton create1ButtonArr = new JButton("Создать функцию (массивы)");
+        JButton create1ButtonMath = new JButton("Создать функцию (функция)");
+        JButton load1Button = new JButton("Загрузить");
+        JButton save1Button = new JButton("Сохранить");
+
+
+
+        JPanel gridButton1Panel = new JPanel(new GridLayout(2, 2, 5, 5));
+        gridButton1Panel.add(create1ButtonArr);
+        gridButton1Panel.add(create1ButtonMath);
+        gridButton1Panel.add(load1Button);
+        gridButton1Panel.add(save1Button);
 //2функ
-        JButton create2ButtonArr = new JButton("Create Second Function with arrays");
-        JButton create2ButtonMath = new JButton("Create Second Function with mathfunc");
-        JButton load2Button = new JButton("Load Second Function");
-        JButton save2Button = new JButton("Save Second Function");
+        JButton create2ButtonArr = new JButton("Создать функцию (массивы)");
+        JButton create2ButtonMath = new JButton("Создать функцию (функция)");
+        JButton load2Button = new JButton("Загрузить");
+        JButton save2Button = new JButton("Сохранить");
+
+        JPanel gridButton2Panel = new JPanel(new GridLayout(2, 2, 5, 5) );
+        gridButton2Panel.add(create2ButtonArr);
+        gridButton2Panel.add(create2ButtonMath);
+        gridButton2Panel.add(load2Button);
+        gridButton2Panel.add(save2Button);
 //операции
-        JButton addButton = new JButton("Add");
-        JButton subtractButton = new JButton("Subtract");
-        JButton multiplyButton = new JButton("Multiply");
-        JButton divideButton = new JButton("Divide");
+        JButton addButton = new JButton("Сложить");
+        JButton subtractButton = new JButton("Вычесть");
+        JButton multiplyButton = new JButton("Умножить");
+        JButton divideButton = new JButton("Поделить");
+        JButton save3Button = new JButton("Сохранить");
 
-//        //рез
-//        JButton saveResultButton = new JButton("Save Result");
-//        JButton addResButton = new JButton("Add res");
-//        JButton subtractResButton = new JButton("Subtract res");
-//        JButton multiplyResButton = new JButton("Multiply res ");
-//        JButton divideResButton = new JButton("Divide res");
+        JPanel gridButton3Panel = new JPanel(new GridLayout(2, 3, 5, 5) );
+        gridButton3Panel.add(addButton);
+        gridButton3Panel.add(subtractButton);
+        gridButton3Panel.add(save3Button);
+        gridButton3Panel.add(multiplyButton);
+        gridButton3Panel.add(divideButton);
 
-        panel.add(create1ButtonArr);
-        panel.add(create1ButtonMath);
-        panel.add(load1Button);
-        panel.add(save1Button);
-        panel.add(create2ButtonArr);
-        panel.add(create2ButtonMath);
-        panel.add(load2Button);
-        panel.add(save2Button);
-        panel.add(addButton);
-        panel.add(subtractButton);
-        panel.add(multiplyButton);
-        panel.add(divideButton);
-//        panel.add(saveResultButton);
-//        panel.add(addResButton);
-//        panel.add(subtractResButton);
-//        panel.add(multiplyResButton);
-//        panel.add(divideResButton);
+        fstFuncPanel.add(gridButton1Panel,BorderLayout.SOUTH);
+        secFuncPanel.add(gridButton2Panel,BorderLayout.SOUTH);
+        resFuncPanel.add(gridButton3Panel,BorderLayout.SOUTH);
 
+        gridPanel.add(fstFuncPanel);
+        gridPanel.add(secFuncPanel);
+        gridPanel.add(resFuncPanel);
+        operationsWindow.add(gridPanel);
 
-        //1я функ
+        create1ButtonMath.addActionListener(e -> {
+            new CreateTabulatedFunctionSource(operationsWindow, factory);
+        });
 
-
-
-
+        create1ButtonArr.addActionListener(e -> {
+            new TabulatedFunctionUI(operationsWindow, factory);
+        });
 
         operationsWindow.setVisible(true);
     }
