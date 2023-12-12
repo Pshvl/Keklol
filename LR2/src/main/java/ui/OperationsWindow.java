@@ -33,26 +33,30 @@ import javax.swing.table.DefaultTableModel;
 
 import static operations.TabulatedFunctionOperationService.Operation.*;
 import static operations.TabulatedFunctionOperationService.Operation.divide;
+import static ui.ExceptionMessage.showError;
 
 public class OperationsWindow extends JDialog {
-    private JDialog operationsWindow;
     private TabulatedFunctionFactory factory;
     public JTable tableFstFunc;
     public JTable tableSecFunc;
     public JTable tableResFunc;
-    private TabulatedFunctionUI functionUI1;
-    private TabulatedFunctionUI functionUI2;
+    private TabulatedFunctionOperationService functionOperationService = new TabulatedFunctionOperationService();
+    private TabulatedFunction tabulatedFunc;
+    private TabulatedFunction tabulatedFstFunc;
+    private TabulatedFunction tabulatedSecFunc;
+    private TabulatedFunction tabulatedResFunc;
 //    public JTable secondFunctionTable;
 //    public JTable resultTable;
     private TabulatedFunctionOperationService operationService;
 
     public OperationsWindow(MainWindow mainWindow, TabulatedFunctionFactory factory) {
+        super(mainWindow, "Операции", Dialog.ModalityType.APPLICATION_MODAL);
         this.factory = factory;
 
-        operationsWindow = new JDialog(mainWindow, "Операции", Dialog.ModalityType.APPLICATION_MODAL);
-        operationsWindow.setSize(1500, 600);
-        operationsWindow.setLocationRelativeTo(mainWindow);
-        operationsWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+        setSize(1500, 600);
+        setLocationRelativeTo(mainWindow);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         //functionUI1 = new TabulatedFunctionUI();
         //functionUI2 = new TabulatedFunctionUI();
 
@@ -109,7 +113,33 @@ public class OperationsWindow extends JDialog {
 // Создание сервиса операций над функциями
 //1функ
         JButton create1ButtonArr = new JButton("Создать функцию (массивы)");
+        create1ButtonArr.addActionListener(e -> {
+            TabulatedFunctionUI tabulatedFunctionUI = new TabulatedFunctionUI(this, factory);
+
+            tableFstModel.setRowCount(0);
+            for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                    Object[] rowData = new Object[2];
+                    rowData[0] = tabulatedFunc.getX(i);
+                    rowData[1] = tabulatedFunc.getY(i);
+                    tableFstModel.addRow(rowData);
+                }
+            setTabulatedFstFunc();
+        });
         JButton create1ButtonMath = new JButton("Создать функцию (функция)");
+        create1ButtonMath.addActionListener(e -> {
+            CreateTabulatedFunctionSource tabulatedFunctionSourceWindow = new CreateTabulatedFunctionSource(this, factory);
+
+            tableFstModel.setRowCount(0);
+            for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                Object[] rowData = new Object[2];
+                rowData[0] = tabulatedFunc.getX(i);
+                rowData[1] = tabulatedFunc.getY(i);
+                tableFstModel.addRow(rowData);
+            }
+            setTabulatedFstFunc();
+        });
         JButton load1Button = new JButton("Загрузить");
         JButton save1Button = new JButton("Сохранить");
 
@@ -122,7 +152,33 @@ public class OperationsWindow extends JDialog {
         gridButton1Panel.add(save1Button);
 //2функ
         JButton create2ButtonArr = new JButton("Создать функцию (массивы)");
+        create2ButtonArr.addActionListener(e -> {
+            TabulatedFunctionUI tabulatedFunctionUI = new TabulatedFunctionUI(this, factory);
+
+            tableSecModel.setRowCount(0);
+            for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                Object[] rowData = new Object[2];
+                rowData[0] = tabulatedFunc.getX(i);
+                rowData[1] = tabulatedFunc.getY(i);
+                tableSecModel.addRow(rowData);
+            }
+            setTabulatedSecFunc();
+        });
         JButton create2ButtonMath = new JButton("Создать функцию (функция)");
+        create2ButtonMath.addActionListener(e -> {
+            CreateTabulatedFunctionSource tabulatedFunctionSourceWindow = new CreateTabulatedFunctionSource(this, factory);
+
+            tableSecModel.setRowCount(0);
+            for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                Object[] rowData = new Object[2];
+                rowData[0] = tabulatedFunc.getX(i);
+                rowData[1] = tabulatedFunc.getY(i);
+                tableSecModel.addRow(rowData);
+            }
+            setTabulatedSecFunc();
+        });
         JButton load2Button = new JButton("Загрузить");
         JButton save2Button = new JButton("Сохранить");
 
@@ -133,9 +189,73 @@ public class OperationsWindow extends JDialog {
         gridButton2Panel.add(save2Button);
 //операции
         JButton addButton = new JButton("Сложить");
+        addButton.addActionListener(e -> {
+            try {
+                tabulatedFunc = functionOperationService.Addition(tabulatedFstFunc, tabulatedSecFunc);
+                tableResModel.setRowCount(0);
+                for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                    Object[] rowData = new Object[2];
+                    rowData[0] = tabulatedFunc.getX(i);
+                    rowData[1] = tabulatedFunc.getY(i);
+                    tableResModel.addRow(rowData);
+                }
+                setTabulatedResFunc();
+            } catch (RuntimeException ex) {
+                showError("Количество точек у первой и второй функции должно быть одинаково И > 0");
+            }
+        });
         JButton subtractButton = new JButton("Вычесть");
+        subtractButton.addActionListener(e -> {
+            try {
+                tabulatedFunc = functionOperationService.Subtraction(tabulatedFstFunc, tabulatedSecFunc);
+                tableResModel.setRowCount(0);
+                for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                    Object[] rowData = new Object[2];
+                    rowData[0] = tabulatedFunc.getX(i);
+                    rowData[1] = tabulatedFunc.getY(i);
+                    tableResModel.addRow(rowData);
+                }
+                setTabulatedResFunc();
+            } catch (RuntimeException ex) {
+                showError("Количество точек у первой и второй функции должно быть одинаково И > 0");
+            }
+            });
         JButton multiplyButton = new JButton("Умножить");
+            multiplyButton.addActionListener(e -> {
+                try {
+                    tabulatedFunc = functionOperationService.multiply(tabulatedFstFunc, tabulatedSecFunc);
+                    tableResModel.setRowCount(0);
+                    for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                        Object[] rowData = new Object[2];
+                        rowData[0] = tabulatedFunc.getX(i);
+                        rowData[1] = tabulatedFunc.getY(i);
+                        tableResModel.addRow(rowData);
+                    }
+                    setTabulatedResFunc();
+                } catch (RuntimeException ex) {
+                    showError("Количество точек у первой и второй функции должно быть одинаково И > 0");
+                }
+            });
         JButton divideButton = new JButton("Поделить");
+                divideButton.addActionListener(e -> {
+                    try {
+                        tabulatedFunc = functionOperationService.divide(tabulatedFstFunc, tabulatedSecFunc);
+                        tableResModel.setRowCount(0);
+                        for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                            Object[] rowData = new Object[2];
+                            rowData[0] = tabulatedFunc.getX(i);
+                            rowData[1] = tabulatedFunc.getY(i);
+                            tableResModel.addRow(rowData);
+                        }
+                        setTabulatedResFunc();
+                    } catch (RuntimeException ex) {
+                        showError("Количество точек у первой и второй функции должно быть одинаково И > 0. Будьте осторожны, делить на 0 НЕЛЬЗЯ.");
+                    }
+                });
         JButton save3Button = new JButton("Сохранить");
 
         JPanel gridButton3Panel = new JPanel(new GridLayout(2, 3, 5, 5) );
@@ -152,17 +272,22 @@ public class OperationsWindow extends JDialog {
         gridPanel.add(fstFuncPanel);
         gridPanel.add(secFuncPanel);
         gridPanel.add(resFuncPanel);
-        operationsWindow.add(gridPanel);
+        add(gridPanel);
 
-        create1ButtonMath.addActionListener(e -> {
-            new CreateTabulatedFunctionSource(operationsWindow, factory);
-        });
+        setVisible(true);
+    }
 
-        create1ButtonArr.addActionListener(e -> {
-            new TabulatedFunctionUI(operationsWindow, factory);
-        });
-
-        operationsWindow.setVisible(true);
+    public void setTabulatedFunc(TabulatedFunction func){
+        this.tabulatedFunc = func;
+    }
+    public void setTabulatedFstFunc(){
+        this.tabulatedFstFunc = this.tabulatedFunc;
+    }
+    public void setTabulatedSecFunc(){
+        this.tabulatedSecFunc = this.tabulatedFunc;
+    }
+    public void setTabulatedResFunc(){
+        this.tabulatedResFunc = this.tabulatedFunc;
     }
 
     private void saveFunctionInFile(JTable Table) {
@@ -174,7 +299,7 @@ public class OperationsWindow extends JDialog {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Files (*.ser)", "ser");
         fileChooser.setFileFilter(filter);
         // Отображение диалогового окна сохранения
-        int result = fileChooser.showSaveDialog(operationsWindow);
+        int result = fileChooser.showSaveDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {                    // Получение выбранного файла
             java.io.File file = fileChooser.getSelectedFile();
@@ -194,7 +319,7 @@ public class OperationsWindow extends JDialog {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Files (*.ser)", "ser");
         fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(operationsWindow);
+        int result = fileChooser.showOpenDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
@@ -205,10 +330,10 @@ public class OperationsWindow extends JDialog {
                 objectInputStream.close();
                 fileInputStream.close();
                 System.out.println(tabulatedFunction);
-                JOptionPane.showMessageDialog(operationsWindow, "Function loaded successfully!");
+                JOptionPane.showMessageDialog(this, "Function loaded successfully!");
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(operationsWindow, "An error occurred while loading the function.");
+                JOptionPane.showMessageDialog(this, "An error occurred while loading the function.");
             }
         }
     }

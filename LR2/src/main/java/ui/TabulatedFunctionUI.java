@@ -19,24 +19,17 @@ import java.awt.event.ActionListener;
 import static ui.ExceptionMessage.showError;
 
 public class TabulatedFunctionUI extends JDialog {
-    private JDialog tabulatedFuncWindow;
     private DefaultTableModel tableModel;
     private JTable table;
     private JTextField pointsTextField;
     private JButton createButton;
+    private TabulatedFunctionFactory factory;
 
-    public TabulatedFunctionUI(Dialog operationsWindow, TabulatedFunctionFactory factory) {
-        tabulatedFuncWindow = new JDialog(operationsWindow, "Создание функции на основе массивов", Dialog.ModalityType.APPLICATION_MODAL);
-        tabulatedFuncWindow.setSize(400, 300);
-        tabulatedFuncWindow.setLocationRelativeTo(operationsWindow);
-        tabulatedFuncWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-        /*setTitle("ЖОПА СИСЬСКИ СРАТЬ КОРЗИНКА");
+    public TabulatedFunctionUI(OperationsWindow operationsWindow, TabulatedFunctionFactory factory) {
+        super(operationsWindow, "Создание функции на основе массивов", Dialog.ModalityType.APPLICATION_MODAL);
         setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        setLocationRelativeTo(null);//по центру*/
+        setLocationRelativeTo(operationsWindow);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 // Создаем компоненты окна
         JPanel inputPanel = new JPanel();
@@ -70,15 +63,15 @@ public class TabulatedFunctionUI extends JDialog {
         createFunc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createTabulatedFunction();
+                createTabulatedFunction(operationsWindow, factory);
             }
         });
 
-        tabulatedFuncWindow.add(inputPanel, BorderLayout.NORTH);
-        tabulatedFuncWindow.add(resultPanel, BorderLayout.SOUTH);
-        tabulatedFuncWindow.add(scrollPane, BorderLayout.CENTER);;
+        add(inputPanel, BorderLayout.NORTH);
+        add(resultPanel, BorderLayout.SOUTH);
+        add(scrollPane, BorderLayout.CENTER);;
 
-        tabulatedFuncWindow.setVisible(true);
+        setVisible(true);
     }
 
 
@@ -90,8 +83,6 @@ public class TabulatedFunctionUI extends JDialog {
                 showError("Неверный Ввод. Пожалуйста введите ЧИСЛО > 0.");
                 return;
             }
-
-            tableModel.setRowCount(0);
 
             for (int i = 0; i < numberOfPoints; i++) {
                 Object[] rowData = new Object[2];
@@ -106,23 +97,25 @@ public class TabulatedFunctionUI extends JDialog {
         }
     }
 
-    private void createTabulatedFunction() {
+    private void createTabulatedFunction(OperationsWindow operationsWindow, TabulatedFunctionFactory newFactory) {
+        this.factory = newFactory;
         TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
         double[] xValues = new double[tableModel.getRowCount()];
         double[] yValues = new double[tableModel.getRowCount()];
 
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            try {
-            xValues[i] = Double.parseDouble(tableModel.getValueAt(i, 0).toString());
-            yValues[i] = Double.parseDouble(tableModel.getValueAt(i, 1).toString());
-            } catch (NumberFormatException ex) {
-                showError("Неверный Ввод. Пожалуйста введите в " + (i+1) + " строке ЧИСЛА с плавающей точкой");
-            }
-        }
-
         try {
-            ArrayTabulatedFunction func = new ArrayTabulatedFunctionFactory().create(xValues, yValues);
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                try {
+                    xValues[i] = Double.parseDouble(tableModel.getValueAt(i, 0).toString());
+                    yValues[i] = Double.parseDouble(tableModel.getValueAt(i, 1).toString());
+                } catch (NumberFormatException ex) {
+                    showError("Неверный Ввод. Пожалуйста введите в " + (i+1) + " строке ЧИСЛА с плавающей точкой");
+                }
+            }
+            TabulatedFunction func = factory.create(xValues, yValues);
+            operationsWindow.setTabulatedFunc(func);
             System.out.println("Tabulated Function created: " + func);
+            dispose();
         } catch (ArrayIsNotSortedException ex) {
             showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");
         }

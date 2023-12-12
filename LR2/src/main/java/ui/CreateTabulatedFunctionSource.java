@@ -15,10 +15,10 @@ import java.util.HashMap;
 import static ui.ExceptionMessage.showError;
 
 public class CreateTabulatedFunctionSource extends JDialog {
-    private JDialog createFuncSourceWindow;
     private DefaultTableModel tableModel;
     private JTable table;
     private JButton createButton;
+    private TabulatedFunctionFactory factory;
 
     private JTextField pointsTextField;
     private JTextField interval_1TextField;
@@ -26,11 +26,11 @@ public class CreateTabulatedFunctionSource extends JDialog {
     private JComboBox funcBox;
     private HashMap<String, Object> functionsMap;
 
-    public CreateTabulatedFunctionSource(Dialog operationsWindow, TabulatedFunctionFactory factory) {
-        createFuncSourceWindow = new JDialog(operationsWindow, "Создание функции на основе другой функции", Dialog.ModalityType.APPLICATION_MODAL);
-        createFuncSourceWindow.setSize(400, 300);
-        createFuncSourceWindow.setLocationRelativeTo(operationsWindow);
-        createFuncSourceWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    public CreateTabulatedFunctionSource(OperationsWindow operationsWindow, TabulatedFunctionFactory factory) {
+        super(operationsWindow, "Создание функции на основе другой функции", Dialog.ModalityType.APPLICATION_MODAL);
+        setSize(400, 300);
+        setLocationRelativeTo(operationsWindow);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         String[] functions = {
                 "Единичная функция",
@@ -89,17 +89,19 @@ public class CreateTabulatedFunctionSource extends JDialog {
         createFunc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createTabulatedFunction();
+                createTabulatedFunction(operationsWindow, factory);
             }
         });
 
-        createFuncSourceWindow.add(gridPanel, BorderLayout.CENTER);
-        createFuncSourceWindow.add(buttonPanel, BorderLayout.SOUTH);
+        add(gridPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        createFuncSourceWindow.setVisible(true);
+        setVisible(true);
     }
 
-    private void createTabulatedFunction() {
+    private void createTabulatedFunction(OperationsWindow operationsWindow, TabulatedFunctionFactory newFactory) {
+        this.factory = newFactory;
+
         int numberOfPoints = -3;
         double xFrom = 0;
         double xTo = 0;
@@ -107,33 +109,24 @@ public class CreateTabulatedFunctionSource extends JDialog {
         try {
             numberOfPoints = Integer.parseInt(pointsTextField.getText());
             if (numberOfPoints <= 0) {
-                showError("Неверный Ввод. Пожалуйста введите ЦЕЛОЕ ЧИСЛО > 0.");
+                showError("Неверный Ввод. Количество точек должно быть ЦЕЛЫМ и > 0.");
                 return;
             }
-        } catch (NumberFormatException ex) {
-            showError("Неверный Ввод. Пожалуйста введите ЦЕЛОЕ ЧИСЛО.");
-        }
-
-        try {
             xFrom = Double.parseDouble(interval_1TextField.getText());
-        } catch (NumberFormatException ex) {
-            showError("Неверный Ввод. Пожалуйста введите ЧИСЛО.");
-        }
-
-        try {
             xTo = Double.parseDouble(interval_2TextField.getText());
-        } catch (NumberFormatException ex) {
-            showError("Неверный Ввод. Пожалуйста введите ЧИСЛО.");
-        }
+            String mathFunc = (String) funcBox.getSelectedItem();
 
-        String mathFunc = (String) funcBox.getSelectedItem();
-
-        try {
-            ArrayTabulatedFunction func = new ArrayTabulatedFunctionFactory().create((MathFunction) functionsMap.get(mathFunc), xFrom, xTo, numberOfPoints);
+            TabulatedFunction func = factory.create((MathFunction) functionsMap.get(mathFunc), xFrom, xTo, numberOfPoints);
+            operationsWindow.setTabulatedFunc(func);
             System.out.println("Tabulated Function created: " + func);
-        } catch (ArrayIsNotSortedException ex) {
-            showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");
-        }
+            dispose();
+        } catch (NumberFormatException ex) {
+            showError("Неверный Ввод. Пожалуйста введите ЧИСЛА.");
+/*            } catch (ArrayIsNotSortedException ex) {
+        showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");*/
+    }
+
+
 
     }
 
