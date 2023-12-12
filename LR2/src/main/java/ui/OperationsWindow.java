@@ -26,8 +26,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javax.swing.table.DefaultTableModel;
 
-import static operations.TabulatedFunctionOperationService.Operation.*;
-import static operations.TabulatedFunctionOperationService.Operation.divide;
 import static ui.ExceptionMessage.showError;
 
 public class OperationsWindow extends JDialog {
@@ -39,8 +37,6 @@ public class OperationsWindow extends JDialog {
     private TabulatedFunction tabulatedFstFunc;
     private TabulatedFunction tabulatedSecFunc;
     private TabulatedFunction tabulatedResFunc;
-//    public JTable secondFunctionTable;
-//    public JTable resultTable;
     private TabulatedFunctionOperationService operationService;
 
     public OperationsWindow(MainWindow mainWindow, TabulatedFunctionFactory factory) {

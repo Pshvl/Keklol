@@ -6,9 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.jar.JarEntry;
 import javax.swing.UIManager;
 import functions.factory.ArrayTabulatedFunctionFactory;
 import functions.factory.TabulatedFunctionFactory;
@@ -20,7 +17,6 @@ public class MainWindow extends JFrame {
     //    public FunctionDatabase database = new FunctionDatabase();
     public TabulatedFunctionFactory functionFactory = new ArrayTabulatedFunctionFactory();
 
-    //    public FunctionList functionList;
     public MainWindow() {
 
         setTitle("Главное окно");
@@ -28,7 +24,7 @@ public class MainWindow extends JFrame {
         setSize(300, 200);
         setLocationRelativeTo(null);
 
-        // Обработчик события закрытия главного окна
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -39,21 +35,6 @@ public class MainWindow extends JFrame {
         });
 
         JPanel gridPanel = new JPanel(new GridLayout(3, 0, 40, 0) );
-
-        /*// Создание кнопки для открытия других окон
-        JButton openWindowButton = new JButton("открыть новое окно");
-        openWindowButton.setBounds(100, 50, 200, 50);
-
-        getContentPane().add(openWindowButton, BorderLayout.CENTER);
-
-        // Добавление обработчика события нажатия на кнопку
-        openWindowButton.addActionListener(e -> {
-            // Создание нового окна
-            JFrame otherWindow = new JFrame("Other Window");
-            otherWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            otherWindow.setSize(300, 200);
-            otherWindow.setVisible(true);
-        });*/
 
 
 

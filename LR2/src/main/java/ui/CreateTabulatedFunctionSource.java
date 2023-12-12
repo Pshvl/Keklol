@@ -1,8 +1,6 @@
 package ui;
 
-import exceptions.ArrayIsNotSortedException;
 import functions.*;
-import functions.factory.ArrayTabulatedFunctionFactory;
 import functions.factory.TabulatedFunctionFactory;
 
 import javax.swing.*;
@@ -15,9 +13,6 @@ import java.util.HashMap;
 import static ui.ExceptionMessage.showError;
 
 public class CreateTabulatedFunctionSource extends JDialog {
-    private DefaultTableModel tableModel;
-    private JTable table;
-    private JButton createButton;
     private TabulatedFunctionFactory factory;
 
     private JTextField pointsTextField;
@@ -195,8 +190,6 @@ public class CreateTabulatedFunctionSource extends JDialog {
             dispose();
         } catch (NumberFormatException ex) {
             showError("Неверный Ввод. Пожалуйста введите ЧИСЛА.");
-/*            } catch (ArrayIsNotSortedException ex) {
-        showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");*/
         }
     }
 
@@ -223,8 +216,6 @@ public class CreateTabulatedFunctionSource extends JDialog {
                 dispose();
             } catch (NumberFormatException ex) {
                 showError("Неверный Ввод. Пожалуйста введите ЧИСЛА.");
-/*            } catch (ArrayIsNotSortedException ex) {
-        showError("Неверный Ввод. Значения x должны быть расположены по возрастанию.");*/
             }
         }
 

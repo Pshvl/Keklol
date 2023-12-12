@@ -195,43 +195,4 @@ public class TabulatedFunctionUI extends JDialog {
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*    public static void main(String[] args) {
-
-        Toolkit.getDefaultToolkit().setDynamicLayout(true);
-        System.setProperty("sun.awt.noerasebackground", "true");
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        JDialog.setDefaultLookAndFeelDecorated(true);
-
-
-        try {
-            UIManager.setLookAndFeel("de.muntjak.tinylookandfeel.TinyLookAndFeel");
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
-
-
-            SwingUtilities.invokeLater(() -> {
-                new TabulatedFunctionUI().setVisible(true);
-            });
-    }*/
 }
