@@ -76,10 +76,10 @@ public class MainWindow extends JFrame {
         JButton differential = new JButton("Дифференциал");
         JPanel differentialPanel = new JPanel();
         differentialPanel.add(differential);
-      /*  differential.addActionListener(e -> {
+        differential.addActionListener(e -> {
             // Создание нового окна
-            new DifferentialWindow(mainWindow);
-        });*/
+           DifferentialWindow diff = new DifferentialWindow(mainWindow, factory);
+        });
 
         gridPanel.add(operationsPanel);
         gridPanel.add(differentialPanel);

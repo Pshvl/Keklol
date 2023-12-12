@@ -31,7 +31,6 @@ import static operations.TabulatedFunctionOperationService.Operation.divide;
 import static ui.ExceptionMessage.showError;
 
 public class OperationsWindow extends JDialog {
-    private TabulatedFunctionFactory factory;
     public JTable tableFstFunc;
     public JTable tableSecFunc;
     public JTable tableResFunc;
@@ -46,7 +45,6 @@ public class OperationsWindow extends JDialog {
 
     public OperationsWindow(MainWindow mainWindow, TabulatedFunctionFactory factory) {
         super(mainWindow, "Операции", Dialog.ModalityType.APPLICATION_MODAL);
-        this.factory = factory;
 
 
         setSize(1500, 600);
