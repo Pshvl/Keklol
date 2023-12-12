@@ -17,17 +17,12 @@ import functions.TabulatedFunction;
 //import java.io.ObjectOutputStream;
 //
 
-import java.io.IOException;
-import java.io.BufferedOutputStream;
+import java.io.*;
 import javax.swing.JTable;
 import javax.swing.*;
 import java.awt.*;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.FileOutputStream;
-
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -141,7 +136,32 @@ public class OperationsWindow extends JDialog {
             setTabulatedFstFunc();
         });
         JButton load1Button = new JButton("Загрузить");
+        load1Button.addActionListener(e -> {
+            loadFunctionFromFile();
+
+            tableFstModel.setRowCount(0);
+            for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                Object[] rowData = new Object[2];
+                rowData[0] = tabulatedFunc.getX(i);
+                rowData[1] = tabulatedFunc.getY(i);
+                tableFstModel.addRow(rowData);
+            }
+            setTabulatedFstFunc();
+        });
         JButton save1Button = new JButton("Сохранить");
+        save1Button.addActionListener(e -> {
+            for (int i = 0; i < tabulatedFstFunc.getCount(); i++) {
+                try {
+                    tabulatedFstFunc.setY(i, Double.parseDouble(tableFstModel.getValueAt(i, 1).toString()));
+                } catch (NumberFormatException ex) {
+                    showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                    break;
+                }
+            }
+
+            saveFunctionInFile(tabulatedFstFunc);
+        });
 
 
 
@@ -180,7 +200,32 @@ public class OperationsWindow extends JDialog {
             setTabulatedSecFunc();
         });
         JButton load2Button = new JButton("Загрузить");
+        load2Button.addActionListener(e -> {
+            loadFunctionFromFile();
+
+            tableSecModel.setRowCount(0);
+            for(int i = 0; i < tabulatedFunc.getCount(); i++) {
+
+                Object[] rowData = new Object[2];
+                rowData[0] = tabulatedFunc.getX(i);
+                rowData[1] = tabulatedFunc.getY(i);
+                tableSecModel.addRow(rowData);
+            }
+            setTabulatedSecFunc();
+        });
         JButton save2Button = new JButton("Сохранить");
+        save2Button.addActionListener(e -> {
+            for (int i = 0; i < tabulatedSecFunc.getCount(); i++) {
+                try {
+                    tabulatedSecFunc.setY(i, Double.parseDouble(tableSecModel.getValueAt(i, 1).toString()));
+                } catch (NumberFormatException ex) {
+                    showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                    break;
+                }
+            }
+
+            saveFunctionInFile(tabulatedSecFunc);
+        });
 
         JPanel gridButton2Panel = new JPanel(new GridLayout(2, 2, 5, 5) );
         gridButton2Panel.add(create2ButtonArr);
@@ -191,6 +236,23 @@ public class OperationsWindow extends JDialog {
         JButton addButton = new JButton("Сложить");
         addButton.addActionListener(e -> {
             try {
+                for (int i = 0; i < tabulatedFstFunc.getCount(); i++) {
+                    try {
+                        tabulatedFstFunc.setY(i, Double.parseDouble(tableFstModel.getValueAt(i, 1).toString()));
+                    } catch (NumberFormatException ex) {
+                        showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                        break;
+                    }
+                }
+                for (int i = 0; i < tabulatedSecFunc.getCount(); i++) {
+                    try {
+                        tabulatedSecFunc.setY(i, Double.parseDouble(tableSecModel.getValueAt(i, 1).toString()));
+                    } catch (NumberFormatException ex) {
+                        showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                        break;
+                    }
+                }
+
                 tabulatedFunc = functionOperationService.Addition(tabulatedFstFunc, tabulatedSecFunc);
                 tableResModel.setRowCount(0);
                 for(int i = 0; i < tabulatedFunc.getCount(); i++) {
@@ -208,6 +270,23 @@ public class OperationsWindow extends JDialog {
         JButton subtractButton = new JButton("Вычесть");
         subtractButton.addActionListener(e -> {
             try {
+                for (int i = 0; i < tabulatedFstFunc.getCount(); i++) {
+                    try {
+                        tabulatedFstFunc.setY(i, Double.parseDouble(tableFstModel.getValueAt(i, 1).toString()));
+                    } catch (NumberFormatException ex) {
+                        showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                        break;
+                    }
+                }
+                for (int i = 0; i < tabulatedSecFunc.getCount(); i++) {
+                    try {
+                        tabulatedSecFunc.setY(i, Double.parseDouble(tableSecModel.getValueAt(i, 1).toString()));
+                    } catch (NumberFormatException ex) {
+                        showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                        break;
+                    }
+                }
+
                 tabulatedFunc = functionOperationService.Subtraction(tabulatedFstFunc, tabulatedSecFunc);
                 tableResModel.setRowCount(0);
                 for(int i = 0; i < tabulatedFunc.getCount(); i++) {
@@ -225,6 +304,23 @@ public class OperationsWindow extends JDialog {
         JButton multiplyButton = new JButton("Умножить");
             multiplyButton.addActionListener(e -> {
                 try {
+                    for (int i = 0; i < tabulatedFstFunc.getCount(); i++) {
+                        try {
+                            tabulatedFstFunc.setY(i, Double.parseDouble(tableFstModel.getValueAt(i, 1).toString()));
+                        } catch (NumberFormatException ex) {
+                            showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < tabulatedSecFunc.getCount(); i++) {
+                        try {
+                            tabulatedSecFunc.setY(i, Double.parseDouble(tableSecModel.getValueAt(i, 1).toString()));
+                        } catch (NumberFormatException ex) {
+                            showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                            break;
+                        }
+                    }
+
                     tabulatedFunc = functionOperationService.multiply(tabulatedFstFunc, tabulatedSecFunc);
                     tableResModel.setRowCount(0);
                     for(int i = 0; i < tabulatedFunc.getCount(); i++) {
@@ -242,6 +338,23 @@ public class OperationsWindow extends JDialog {
         JButton divideButton = new JButton("Поделить");
                 divideButton.addActionListener(e -> {
                     try {
+                        for (int i = 0; i < tabulatedFstFunc.getCount(); i++) {
+                            try {
+                                tabulatedFstFunc.setY(i, Double.parseDouble(tableFstModel.getValueAt(i, 1).toString()));
+                            } catch (NumberFormatException ex) {
+                                showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < tabulatedSecFunc.getCount(); i++) {
+                            try {
+                                tabulatedSecFunc.setY(i, Double.parseDouble(tableSecModel.getValueAt(i, 1).toString()));
+                            } catch (NumberFormatException ex) {
+                                showError("Неверный Ввод. Значения могут быть только ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ.");
+                                break;
+                            }
+                        }
+
                         tabulatedFunc = functionOperationService.divide(tabulatedFstFunc, tabulatedSecFunc);
                         tableResModel.setRowCount(0);
                         for(int i = 0; i < tabulatedFunc.getCount(); i++) {
@@ -257,6 +370,9 @@ public class OperationsWindow extends JDialog {
                     }
                 });
         JButton save3Button = new JButton("Сохранить");
+        save3Button.addActionListener(e -> {
+            saveFunctionInFile(tabulatedResFunc);
+        });
 
         JPanel gridButton3Panel = new JPanel(new GridLayout(2, 3, 5, 5) );
         gridButton3Panel.add(addButton);
@@ -290,24 +406,28 @@ public class OperationsWindow extends JDialog {
         this.tabulatedResFunc = this.tabulatedFunc;
     }
 
-    private void saveFunctionInFile(JTable Table) {
+    private void saveFunctionInFile(TabulatedFunction func) {
+        if (func == null){
+            showError("Пожалуйста создайте функцию перед тем, как ее сохранять");
+        }
+        else {
+            // Создание диалогового окна сохранения
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            // Настройка фильтра расширений файлов
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Files (*.ser)", "ser");
+            fileChooser.setFileFilter(filter);
+            // Отображение диалогового окна сохранения
+            int result = fileChooser.showSaveDialog(this);
 
-        // Создание диалогового окна сохранения
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        // Настройка фильтра расширений файлов
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Files (*.ser)", "ser");
-        fileChooser.setFileFilter(filter);
-        // Отображение диалогового окна сохранения
-        int result = fileChooser.showSaveDialog(this);
-
-        if (result == JFileChooser.APPROVE_OPTION) {                    // Получение выбранного файла
-            java.io.File file = fileChooser.getSelectedFile();
-            try {
-                BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
-                FunctionsIO.serialize(outputStream, (TabulatedFunction) Table);
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            if (result == JFileChooser.APPROVE_OPTION) {                    // Получение выбранного файла
+                java.io.File file = fileChooser.getSelectedFile();
+                try {
+                    BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
+                    FunctionsIO.serialize(outputStream, func);
+                } catch (IOException ex) {
+                    showError("Произошла ошибка при записи функции.");
+                }
             }
         }
 
@@ -324,16 +444,14 @@ public class OperationsWindow extends JDialog {
         if (result == JFileChooser.APPROVE_OPTION) {
             java.io.File file = fileChooser.getSelectedFile();
             try {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                TabulatedFunction tabulatedFunction = (TabulatedFunction) objectInputStream.readObject();
-                objectInputStream.close();
-                fileInputStream.close();
+                BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+                TabulatedFunction tabulatedFunction = FunctionsIO.deserialize(inputStream);
+                setTabulatedFunc(tabulatedFunction);
                 System.out.println(tabulatedFunction);
-                JOptionPane.showMessageDialog(this, "Function loaded successfully!");
+                JOptionPane.showMessageDialog(this, "Функция была успешно загружена!");
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "An error occurred while loading the function.");
+                JOptionPane.showMessageDialog(this, "Произошла ошибка при загрузке функции.");
             }
         }
     }
