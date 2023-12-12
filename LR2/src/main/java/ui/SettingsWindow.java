@@ -16,7 +16,7 @@ public class SettingsWindow extends JDialog {
 
         JDialog settingsWindow = new JDialog(mainWindow, "Настройки", Dialog.ModalityType.APPLICATION_MODAL);
         JLabel settings = new JLabel("Выберите тип создаваемой функции:");
-        settingsWindow.setSize(300, 300);
+        settingsWindow.setSize(200, 200);
         settingsWindow.setLocationRelativeTo(mainWindow);
         settingsWindow.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
